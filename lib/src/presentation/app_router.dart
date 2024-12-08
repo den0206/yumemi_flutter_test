@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:yumemi_flutter_test/src/presentation/pages/github_search_page.dart';
+import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_page.dart';
 
 part '../_generated/src/presentation/app_router.g.dart';
 
