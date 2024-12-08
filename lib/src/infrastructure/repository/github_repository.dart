@@ -2,7 +2,9 @@ import 'package:yumemi_flutter_test/src/domain/entity/github/repository/api_clie
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 
 // 【Guthub API】 https://api.github.com/
-final class GithubRepository extends GithubApiClient {
+class GithubRepository extends GithubApiClient {
+  GithubRepository({required super.client});
+
   //【GET】search/repositories
   Future<SearchRepositoryResponse> searchRepositories() async {
     final uri = setUri(
