@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 abstract class GithubApiClient {
-  http.Client get client {
-    return http.Client();
-  }
+  GithubApiClient({required this.client});
+
+  final http.Client client;
 
   final String host = 'api.github.com';
 
