@@ -1,0 +1,44 @@
+name: flutter_ci
+
+on:
+  # Main ブランチへ向けたPRを作成した時に実行する
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  # 静的解析&テストフロー
+  analyze_test:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      # FVMのセットアップ   
+      - name: Setup Flutter Version Management CLI
+        uses: flutter-actions/setup-fvm@v1
+
+      # Flutter SDKのインストール
+      - name: Install Flutter SDK
+        run: fvm use
+
+      # Flutter SDKのバージョン
+      - name: flutter version
+        run:  fvm flutter --version
+
+      # 自動生成ファイル(MakeFileを使用)
+      - name: setup script
+        run: make auto
+
+      # 静的解析
+      - name: flutter analyze
+        run: fvm flutter analyze
+
+      # テスト
+      - name: flutter test
+        run: fvm flutter test 
