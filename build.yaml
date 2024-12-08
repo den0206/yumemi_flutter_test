@@ -15,3 +15,9 @@ targets:
           explicit_to_json: true
           # JSONオブジェクトのキーをSnakeCaseに変換する
           field_rename: snake  
+      mockito|mockBuilder:
+        generate_for: 
+          - test/src/domain/annotations/**.dart
+        options:
+          build_extensions:
+            '^test/{{}}.dart' : 'test/src/_generated/{{}}.mocks.dart' 

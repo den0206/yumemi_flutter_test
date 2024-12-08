@@ -46,4 +46,4 @@ app.*.map.json
 .fvm/
 
 # 自動生成ファイル
-lib/src/_generated
+**/_generated
