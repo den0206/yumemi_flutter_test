@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
+import 'package:yumemi_flutter_test/src/domain/entity/github/repository/exception/network_exception.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/repository/github_repository.dart';
 
@@ -29,7 +30,8 @@ void main() {
       );
     }
 
-    test('正常系: モックデータ', () async {
+    // 200: 正常系
+    test('正常系(200): モックデータ', () async {
       await mockHttpResponse(200, mockSearchResponse);
 
       final result = await repository.searchRepositories();
@@ -59,7 +61,7 @@ void main() {
       }
     });
 
-    test('正常系: モックデータ(クラス変換)', () async {
+    test('正常系(200): モックデータ(クラス変換)', () async {
       final encoded = json.decode(mockSearchResponse);
       final convertData = SearchRepositoryResponse.fromJson(encoded);
 
@@ -70,6 +72,53 @@ void main() {
       for (var i = 0; i < result.items.length; i++) {
         expect(result.items[i], convertData.items[i]);
       }
+    });
+
+    // 304: 異常系
+    test(
+      '異常系(304): Not Modifiedエラー',
+      () async {
+        const statusCode = 304;
+        await mockHttpResponse(statusCode, mockSearchResponse);
+
+        expect(
+          () async => repository.searchRepositories(),
+          throwsA(NetworkException.notModified()),
+        );
+      },
+    );
+
+    // 422: 異常系
+    test('異常系(422): バリデーションエラー', () async {
+      const statusCode = 422;
+      await mockHttpResponse(statusCode, mockSearchResponse);
+
+      expect(
+        () async => repository.searchRepositories(),
+        throwsA(NetworkException.validationFailed()),
+      );
+    });
+
+    // 503: 異常系
+    test('異常系(503): サービス利用不可', () async {
+      const statusCode = 503; // 修正
+      await mockHttpResponse(statusCode, mockSearchResponse);
+
+      expect(
+        () async => repository.searchRepositories(),
+        throwsA(NetworkException.serviceUnavailable()),
+      );
+    });
+
+    // 999: 異常系
+    test('異常系(999): 不明なエラー', () async {
+      const statusCode = 999;
+      await mockHttpResponse(statusCode, mockSearchResponse);
+
+      expect(
+        () async => repository.searchRepositories(),
+        throwsA(NetworkException.unknown()),
+      );
     });
   });
 }
