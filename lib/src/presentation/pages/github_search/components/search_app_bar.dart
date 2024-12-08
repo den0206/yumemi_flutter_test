@@ -1,29 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
+import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
 
-final class SearchAppBar extends StatelessWidget
-    implements PreferredSizeWidget {
+final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const SearchAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _ = ref.watch(githubSearchNotifierProvider);
+
     return AppBar(
       title: _SearchTextField(
-        onSubmitted: (query) {
-          debugPrint('onSubmitted: $query');
+        onSubmitted: (query) async {
+          // キーボード上の検索ボタン: タップ時
+          await ref.read(githubSearchNotifierProvider.notifier).search();
         },
         onDeleted: () {
-          debugPrint('onDeleted tap');
+          // 削除ボタン: タップ時
+          ref.read(githubSearchNotifierProvider.notifier).clear();
+        },
+        onChanged: (query) {
+          // 検索文字列変更時
+          ref.read(githubSearchNotifierProvider.notifier).onQueryChanged(query);
         },
       ),
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
-          onPressed: () {
-            debugPrint('search icon tap');
+          onPressed: () async {
+            // 検索ボタン(アイコン): タップ時
+            await ref.read(githubSearchNotifierProvider.notifier).search();
           },
         ),
       ],
@@ -33,9 +43,13 @@ final class SearchAppBar extends StatelessWidget
 
 final class _SearchTextField extends StatefulWidget {
   const _SearchTextField({
+    this.onChanged,
     this.onSubmitted,
     this.onDeleted,
   });
+
+  /// 検索ボタンタップ時ののイベント
+  final Function(String)? onChanged;
 
   /// 検索ボタンタップ時ののイベント
   final Function(String)? onSubmitted;
@@ -110,6 +124,7 @@ class _SearchTextFieldState extends State<_SearchTextField> {
       onTapOutside: (event) {
         context.dismissKeyboard();
       },
+      onChanged: widget.onChanged,
       // キーボードのEnterキー押下時に検索を実行する
       onSubmitted: (q) {
         context.dismissKeyboard();
