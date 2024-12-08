@@ -34,7 +34,7 @@ void main() {
     test('正常系(200): モックデータ', () async {
       await mockHttpResponse(200, mockSearchResponse);
 
-      final result = await repository.searchRepositories();
+      final result = await repository.searchRepositories(query: 'hoge');
 
       expect(result.totalCount, 83181);
       expect(result.items.length, 30);
@@ -67,7 +67,7 @@ void main() {
 
       await mockHttpResponse(200, mockSearchResponse);
 
-      final result = await repository.searchRepositories();
+      final result = await repository.searchRepositories(query: 'hoge');
 
       for (var i = 0; i < result.items.length; i++) {
         expect(result.items[i], convertData.items[i]);
@@ -82,7 +82,7 @@ void main() {
         await mockHttpResponse(statusCode, mockSearchResponse);
 
         expect(
-          () async => repository.searchRepositories(),
+          () async => repository.searchRepositories(query: 'hoge'),
           throwsA(NetworkException.notModified()),
         );
       },
@@ -94,7 +94,7 @@ void main() {
       await mockHttpResponse(statusCode, mockSearchResponse);
 
       expect(
-        () async => repository.searchRepositories(),
+        () async => repository.searchRepositories(query: 'hoge'),
         throwsA(NetworkException.validationFailed()),
       );
     });
@@ -105,7 +105,7 @@ void main() {
       await mockHttpResponse(statusCode, mockSearchResponse);
 
       expect(
-        () async => repository.searchRepositories(),
+        () async => repository.searchRepositories(query: 'hoge'),
         throwsA(NetworkException.serviceUnavailable()),
       );
     });
@@ -116,7 +116,7 @@ void main() {
       await mockHttpResponse(statusCode, mockSearchResponse);
 
       expect(
-        () async => repository.searchRepositories(),
+        () async => repository.searchRepositories(query: 'hoge'),
         throwsA(NetworkException.unknown()),
       );
     });
