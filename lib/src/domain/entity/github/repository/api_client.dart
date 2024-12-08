@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:yumemi_flutter_test/src/domain/entity/github/repository/exception/network_exception.dart';
 
 abstract class GithubApiClient {
   GithubApiClient({required this.client});
@@ -36,8 +37,7 @@ abstract class GithubApiClient {
       final handler = _GithubResponseBase<T>.fromResponse(response, fromJsonT);
 
       if (handler.data == null) {
-        // TODO ---- エラー処理を実装する
-        throw Exception('no data');
+        throw NetworkException.unknown();
       }
 
       return handler.data!;
@@ -53,10 +53,14 @@ abstract class GithubApiClient {
     switch (statusCode) {
       case 200:
         break;
-
+      case 304:
+        throw NetworkException.notModified();
+      case 422:
+        throw NetworkException.validationFailed();
+      case 503:
+        throw NetworkException.serviceUnavailable();
       default:
-        // TODO ---- エラー処理を実装する
-        throw Exception('Network Error');
+        throw NetworkException.unknown();
     }
   }
 }
