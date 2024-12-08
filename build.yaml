@@ -9,3 +9,9 @@ targets:
         options:
           build_extensions:
             '^lib/{{}}.dart': 'lib/src/_generated/{{}}.freezed.dart'
+      json_serializable:
+        options:
+          # オブジェクトを含んだFreezedクラスをJSONに変換する
+          explicit_to_json: true
+          # JSONオブジェクトのキーをSnakeCaseに変換する
+          field_rename: snake  
