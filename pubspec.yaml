@@ -30,6 +30,7 @@ dev_dependencies:
   riverpod_lint: ^2.6.3
   riverpod_generator: ^2.6.3
   mockito: ^5.4.4
+  faker: ^2.2.0
 
 flutter:
 
