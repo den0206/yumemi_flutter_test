@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yumemi_flutter_test/src/core/extension/context.dart';
+import 'package:yumemi_flutter_test/src/presentation/pages/github_detail/github_detail_page.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
 
 final class RepositoryList extends ConsumerWidget {
@@ -29,8 +31,18 @@ final class RepositoryList extends ConsumerWidget {
       itemCount: state.repositories.length,
       itemBuilder: (context, index) {
         final repository = state.repositories[index];
+
+        // リポジトリCell
         return ListTile(
           title: Text(repository.fullName),
+          subtitle: Text(repository.description ?? ''),
+          onTap: () async {
+            // 動作: リポジトリ詳細画面に遷移
+            await context.pushNamed(
+              GithubDetailPage.routeName,
+              arguments: repository,
+            );
+          },
         );
       },
     );
