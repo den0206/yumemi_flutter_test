@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 
+import '../../../../factory/github_factory.dart';
 import 'mock_data.dart';
 
 void main() {
@@ -35,6 +36,38 @@ void main() {
       );
 
       expect(item.owner, owner);
+    });
+  });
+
+  group('/search/repositories フェイクモデル変換テスト', () {
+    test('SearchRepository', () {
+      final fact = SearchRepositoryResponseFactory();
+      final data = fact.generateFake();
+
+      final json = data.toJson();
+      final decodedData = SearchRepositoryResponse.fromJson(json);
+
+      expect(decodedData, data);
+    });
+
+    test('Repository', () {
+      final fact = RepositoryFactory();
+      final data = fact.generateFake();
+
+      final json = data.toJson();
+      final decodedData = RepositorySchema.fromJson(json);
+
+      expect(decodedData, data);
+    });
+
+    test('Owner', () {
+      final fact = OwnerFactory();
+      final data = fact.generateFake();
+
+      final json = data.toJson();
+      final decodedData = OwnerSchema.fromJson(json);
+
+      expect(decodedData, data);
     });
   });
 }
