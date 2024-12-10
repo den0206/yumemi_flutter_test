@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/api_client.dart';
+import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/query.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 
 part '../../_generated/src/infrastructure/repository/github_repository.g.dart';
@@ -23,12 +24,12 @@ class GithubRepository extends GithubApiClient {
   GithubRepository({required super.client});
 
   //【GET】search/repositories
-  Future<SearchRepositoryResponse> searchRepositories({
-    required String query,
-  }) async {
-    final uri = setUri('/search/repositories', {
-      'q': query,
-    });
+  Future<SearchRepositoryResponse> searchRepositories(
+    SearchRepositoryQuery query,
+  ) async {
+    const path = '/search/repositories';
+
+    final uri = setUri(path, query.toQuery);
 
     return getRequest<SearchRepositoryResponse>(
       uri: uri,
