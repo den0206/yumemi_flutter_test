@@ -83,6 +83,56 @@ void main() {
     },
   );
 
+  test(
+    'ページネーション検索',
+    () async {
+      final container = makeProviderContainer(mockSearchRepository);
+      final target = container.read(githubSearchNotifierProvider.notifier);
+
+      // 初回レスポンスデータ(Dummy)の生成
+      final firstRepsonse = SearchRepositoryResponseFactory().generateFake();
+
+      // ランダムの検索文字列
+      final q = rnd.rString;
+
+      when(mockSearchRepository.searchRepositories(any)).thenAnswer(
+        (_) async => firstRepsonse,
+      );
+
+      // 動作: 検索文言の更新
+      target.onQueryChanged(q);
+
+      // 動作: 検索
+      await target.search();
+
+      // 検証
+      expect(target.state.query, q);
+      expect(target.state.page, 2);
+      expect(target.state.repositories, firstRepsonse.items);
+      expect(target.state.isLoading, false);
+
+      // セカンドレスポンスデータ(Dummy)の生成
+      final secondRepsonse = SearchRepositoryResponseFactory().generateFake();
+
+      when(mockSearchRepository.searchRepositories(any)).thenAnswer(
+        (_) async => secondRepsonse,
+      );
+
+      // 動作: ページネーション検索
+      await target.search();
+
+      // 検証
+      // リポジトリ配列が結合されているか
+      expect(
+        target.state.repositories,
+        [...firstRepsonse.items, ...secondRepsonse.items],
+      );
+      // ページが加算されているか
+      expect(target.state.page, 3);
+      expect(target.state.isLoading, false);
+    },
+  );
+
   test('クリア', () {
     final container = makeProviderContainer(mockSearchRepository);
     final target = container.read(githubSearchNotifierProvider.notifier);
