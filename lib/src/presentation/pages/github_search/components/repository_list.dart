@@ -44,9 +44,7 @@ final class RepositoryList extends ConsumerWidget {
 
             try {
               //  動作: ページネーション機能
-              await ref
-                  .read(githubSearchNotifierProvider.notifier)
-                  .search(isPaging: true);
+              await ref.read(githubSearchNotifierProvider.notifier).search();
             } catch (e) {
               debugPrint(e.toString());
             }

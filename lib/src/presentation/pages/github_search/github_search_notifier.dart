@@ -5,6 +5,7 @@ import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_
 
 part '../../../_generated/src/presentation/pages/github_search/github_search_notifier.g.dart';
 
+// リポジトリ検索画面の操作を管理するクラス
 @riverpod
 final class GithubSearchNotifier extends _$GithubSearchNotifier {
   @override
@@ -26,12 +27,15 @@ final class GithubSearchNotifier extends _$GithubSearchNotifier {
   }
 
   /// リポジトリ検索
-  Future<void> search({bool isPaging = false}) async {
+  Future<void> search() async {
     // 空文字の場合は処理しない
     if (state.query.isEmpty) return;
 
     // 既に検索中の場合は処理しない
     if (state.isLoading) return;
+
+    // ページネーションとして検索を行うか
+    final isPaging = state.repositories.isNotEmpty;
 
     // ページネーション動作であり,次の検索結果がない場合は処理終了
     if (isPaging && !state.hasNextPage) return;
