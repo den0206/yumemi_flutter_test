@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +18,8 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
     return AppBar(
       title: _SearchTextField(
+        // インクリメント検索の待機時間
+        incrementalDuration: const Duration(seconds: 1),
         onSubmitted: (query) async {
           // キーボード上の検索ボタン: タップ時
           await ref.read(githubSearchNotifierProvider.notifier).search();
@@ -24,29 +28,24 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
           // 削除ボタン: タップ時
           ref.read(githubSearchNotifierProvider.notifier).clear();
         },
-        onChanged: (query) {
+        onChanged: (query) async {
           // 検索文字列変更時
           ref.read(githubSearchNotifierProvider.notifier).onQueryChanged(query);
+
+          // インクリメント検索
+          await ref.read(githubSearchNotifierProvider.notifier).search();
         },
       ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () async {
-            // 検索ボタン(アイコン): タップ時
-            await ref.read(githubSearchNotifierProvider.notifier).search();
-          },
-        ),
-      ],
     );
   }
 }
 
-final class _SearchTextField extends StatefulWidget {
+final class _SearchTextField extends ConsumerStatefulWidget {
   const _SearchTextField({
     this.onChanged,
     this.onSubmitted,
     this.onDeleted,
+    this.incrementalDuration,
   });
 
   /// 検索ボタンタップ時ののイベント
@@ -58,12 +57,17 @@ final class _SearchTextField extends StatefulWidget {
   /// 削除ボタンタップ時ののイベント
   final GestureTapCallback? onDeleted;
 
+  // インクリメント検索の待機時間
+  final Duration? incrementalDuration;
+
   @override
-  State<_SearchTextField> createState() => _SearchTextFieldState();
+  ConsumerState<_SearchTextField> createState() => _SearchTextFieldState();
 }
 
-class _SearchTextFieldState extends State<_SearchTextField> {
+class _SearchTextFieldState extends ConsumerState<_SearchTextField> {
   final _controller = TextEditingController();
+  String _incrementalText = '';
+  Timer? _debounce;
 
   OutlineInputBorder get border => OutlineInputBorder(
         borderSide: const BorderSide(
@@ -75,11 +79,17 @@ class _SearchTextFieldState extends State<_SearchTextField> {
   @override
   void initState() {
     super.initState();
+
+    final query =
+        ref.read(githubSearchNotifierProvider.select((state) => state.query));
+    _controller.text = query;
+    _incrementalText = query;
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -129,7 +139,33 @@ class _SearchTextFieldState extends State<_SearchTextField> {
       onTapOutside: (event) {
         context.dismissKeyboard();
       },
-      onChanged: widget.onChanged,
+      onChanged: (q) {
+        if (q.isEmpty) {
+          // 空文字であれば検索結果をクリアするために実行
+          _incrementalText = '';
+          widget.onDeleted?.call();
+          return;
+        }
+
+        // バックスペースであれば処理終了
+        if (_incrementalText.contains(q)) {
+          _incrementalText = q;
+          return;
+        }
+
+        if (_debounce?.isActive ?? false) _debounce!.cancel();
+        _debounce = Timer(widget.incrementalDuration!, () {
+          context.dismissKeyboard();
+
+          // 検索を開始したら現在の検索結果をクリアする
+          widget.onDeleted?.call();
+
+          // ここで検索処理を実行
+          widget.onChanged?.call(q);
+          _incrementalText = q;
+          // 実際の検索処理をここに追加
+        });
+      },
       // キーボードのEnterキー押下時に検索を実行する
       onSubmitted: (q) {
         context.dismissKeyboard();
