@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/exception/network_exception.dart';
+import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/query.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/repository/github_repository.dart';
 
@@ -17,6 +18,7 @@ void main() {
 
   group('/search/repositories', () {
     const mockSearchResponse = MockData.searchResponse;
+    const query = SearchRepositoryQuery(q: 'hoge');
     // 共通のセットアップメソッド
     Future<void> mockHttpResponse(int statusCode, String responseBody) async {
       when(mockClient.get(any, headers: anyNamed('headers'))).thenAnswer(
@@ -34,7 +36,7 @@ void main() {
     test('正常系(200): モックデータ', () async {
       await mockHttpResponse(200, mockSearchResponse);
 
-      final result = await repository.searchRepositories(query: 'hoge');
+      final result = await repository.searchRepositories(query);
 
       expect(result.totalCount, 83181);
       expect(result.items.length, 30);
@@ -67,7 +69,7 @@ void main() {
 
       await mockHttpResponse(200, mockSearchResponse);
 
-      final result = await repository.searchRepositories(query: 'hoge');
+      final result = await repository.searchRepositories(query);
 
       for (var i = 0; i < result.items.length; i++) {
         expect(result.items[i], convertData.items[i]);
@@ -82,7 +84,7 @@ void main() {
         await mockHttpResponse(statusCode, mockSearchResponse);
 
         expect(
-          () async => repository.searchRepositories(query: 'hoge'),
+          () async => repository.searchRepositories(query),
           throwsA(NetworkException.notModified()),
         );
       },
@@ -94,7 +96,7 @@ void main() {
       await mockHttpResponse(statusCode, mockSearchResponse);
 
       expect(
-        () async => repository.searchRepositories(query: 'hoge'),
+        () async => repository.searchRepositories(query),
         throwsA(NetworkException.validationFailed()),
       );
     });
@@ -105,7 +107,7 @@ void main() {
       await mockHttpResponse(statusCode, mockSearchResponse);
 
       expect(
-        () async => repository.searchRepositories(query: 'hoge'),
+        () async => repository.searchRepositories(query),
         throwsA(NetworkException.serviceUnavailable()),
       );
     });
@@ -116,7 +118,7 @@ void main() {
       await mockHttpResponse(statusCode, mockSearchResponse);
 
       expect(
-        () async => repository.searchRepositories(query: 'hoge'),
+        () async => repository.searchRepositories(query),
         throwsA(NetworkException.unknown()),
       );
     });
