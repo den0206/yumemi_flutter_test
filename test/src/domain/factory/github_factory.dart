@@ -7,9 +7,10 @@ final class SearchRepositoryResponseFactory
   /// 単体のフェイクモデルの生成
   @override
   SearchRepositoryResponse generateFake() {
+    final repositories = RepositoryFactory().generateFakeList();
     return SearchRepositoryResponse(
-      totalCount: rInteger,
-      items: RepositoryFactory().generateFakeList(),
+      totalCount: repositories.length + 1,
+      items: repositories,
     );
   }
 
