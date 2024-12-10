@@ -39,7 +39,7 @@ void main() {
     // ランダムの検索文字列
     final q = rnd.rString;
 
-    when(mockSearchRepository.searchRepositories(query: q)).thenAnswer(
+    when(mockSearchRepository.searchRepositories(any)).thenAnswer(
       (_) async => mockRepsonse,
     );
 
@@ -65,7 +65,7 @@ void main() {
       final q = rnd.rString;
 
       // 例外を起こす
-      when(mockSearchRepository.searchRepositories(query: q))
+      when(mockSearchRepository.searchRepositories(any))
           .thenThrow(NetworkException.validationFailed());
 
       // 動作: 検索文言の更新
