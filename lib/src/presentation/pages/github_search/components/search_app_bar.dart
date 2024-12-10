@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
@@ -118,6 +119,10 @@ class _SearchTextFieldState extends State<_SearchTextField> {
         disabledBorder: border,
         counterText: '',
       ),
+      // アルファベットのみ入力可能にする
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+      ],
       // 最大記入文字数
       maxLength: 15,
       keyboardType: TextInputType.text,
