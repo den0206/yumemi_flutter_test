@@ -7,6 +7,7 @@ extension FocusExtension on BuildContext {
   }
 }
 
+// Navigator 拡張
 extension RouteExtension on BuildContext {
   NavigatorState get navigator => Navigator.of(this);
 
@@ -17,4 +18,15 @@ extension RouteExtension on BuildContext {
       navigator.pushNamed(routeName, arguments: arguments);
 
   void pop<T extends Object?>([T? result]) => navigator.pop(result);
+}
+
+// TextTheme 拡張
+extension TextStyleExtension on BuildContext {
+  TextStyle get titleLarge {
+    return Theme.of(this).textTheme.titleLarge!;
+  }
+
+  TextStyle get bodySmall {
+    return Theme.of(this).textTheme.bodySmall!;
+  }
 }
