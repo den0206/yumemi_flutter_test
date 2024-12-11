@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/domain/model/sort_type.dart';
+import 'package:yumemi_flutter_test/src/presentation/notifier/sort_type_notifier.dart';
 
 // 条件選択を変更するパネル
-final class ConditionSearchPanel extends StatelessWidget {
+final class ConditionSearchPanel extends ConsumerWidget {
   const ConditionSearchPanel({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sortState = ref.watch(sortTypeNotifierProvider);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -24,11 +28,15 @@ final class ConditionSearchPanel extends StatelessWidget {
           (e) {
             return RadioListTile<SortType>(
               value: e,
-              groupValue: SortType.bestMatch,
+              groupValue: sortState,
               title: Text(e.title),
               onChanged: (value) async {
                 if (value == null) return;
-                debugPrint('Sort type: $value');
+
+                //動作:  SortType の更新 & 再検索
+                await ref
+                    .read(sortTypeNotifierProvider.notifier)
+                    .updateType(value);
               },
             );
           },
