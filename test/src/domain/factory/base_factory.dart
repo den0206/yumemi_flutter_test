@@ -43,4 +43,9 @@ class RandomFactory {
     const max = 100000;
     return faker.randomGenerator.integer(max, min: 1);
   }
+
+  // 特定の列挙体のValue を返却
+  T rEnum<T extends Enum>(List<T> values) {
+    return faker.randomGenerator.element(values);
+  }
 }
