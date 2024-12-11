@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/circle_icon_button.dart';
+import 'package:yumemi_flutter_test/src/presentation/pages/github_search/components/condition_search_panel.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
 
 final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
@@ -36,6 +38,9 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
           await ref.read(githubSearchNotifierProvider.notifier).search();
         },
       ),
+      actions: const [
+        _ConditionSearchButton(),
+      ],
     );
   }
 }
@@ -173,6 +178,27 @@ class _SearchTextFieldState extends ConsumerState<_SearchTextField> {
       },
       // キーボードのEnterキーを検索ボタンにする
       textInputAction: TextInputAction.search,
+    );
+  }
+}
+
+final class _ConditionSearchButton extends StatelessWidget {
+  const _ConditionSearchButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleIconButton(
+      icon: const Icon(Icons.sort),
+      onPressed: () async {
+        context.dismissKeyboard();
+        await showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          builder: (context) {
+            return const ConditionSearchPanel();
+          },
+        );
+      },
     );
   }
 }
