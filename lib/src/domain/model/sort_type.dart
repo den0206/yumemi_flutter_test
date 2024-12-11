@@ -13,6 +13,19 @@ enum SortType {
   const SortType(this.queryValue);
 
   final String queryValue;
+
+  String get title {
+    switch (this) {
+      case SortType.bestMatch:
+        return 'ベストマッチ';
+      case SortType.stars:
+        return 'スター数';
+      case SortType.forks:
+        return 'フォーク数';
+      case SortType.helpWantedIssues:
+        return 'イシュー数';
+    }
+  }
 }
 
 final class SortTypeConverter implements JsonConverter<SortType, String> {
