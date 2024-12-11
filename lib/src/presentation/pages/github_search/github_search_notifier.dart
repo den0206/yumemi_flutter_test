@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/query.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/repository/github_repository.dart';
+import 'package:yumemi_flutter_test/src/presentation/notifier/sort_type_notifier.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_state.dart';
 
 part '../../../_generated/src/presentation/pages/github_search/github_search_notifier.g.dart';
@@ -20,6 +21,8 @@ final class GithubSearchNotifier extends _$GithubSearchNotifier {
         q: state.query,
         // 現在のページ
         page: state.page,
+        // 並び替え
+        sort: ref.read(sortTypeNotifierProvider),
       );
 
   void onQueryChanged(String query) {
