@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/exception/network_exception.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/repository/github_repository.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
@@ -16,6 +17,7 @@ void main() {
   ProviderContainer makeProviderContainer(
     MockGithubRepository mockSearchRepository,
   ) {
+    SharedPreferences.setMockInitialValues({});
     final container = ProviderContainer(
       overrides: [
         githubRepositoryProvider.overrideWithValue(mockSearchRepository),
@@ -72,7 +74,7 @@ void main() {
       target.onQueryChanged(q);
 
       // 検証: 例外が返却されるか
-      expect(
+      await expectLater(
         () async => target.search(),
         throwsA(NetworkException.validationFailed()),
       );
