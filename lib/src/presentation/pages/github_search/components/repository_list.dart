@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/circle_image_avatar.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/github_label.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_detail/github_detail_page.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_state.dart';
@@ -55,6 +57,7 @@ final class RepositoryList extends ConsumerWidget {
   }
 }
 
+// リポジトリセル
 final class _RepositoryCell extends StatelessWidget {
   const _RepositoryCell(
     this.repository,
@@ -64,9 +67,8 @@ final class _RepositoryCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(repository.fullName),
-      subtitle: Text(repository.description ?? ''),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () async {
         // 動作: リポジトリ詳細画面に遷移
         await context.pushNamed(
@@ -74,10 +76,52 @@ final class _RepositoryCell extends StatelessWidget {
           arguments: repository,
         );
       },
+      child: Row(
+        children: [
+          const SizedBox(width: 10),
+          CircleImageAvatar(url: repository.owner.avatarUrl),
+          const SizedBox(width: 10),
+          SizedBox(
+            // 画面横幅の60%を指定
+            width: context.widthPct(.6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  repository.fullName,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                if (repository.description != null)
+                  Text(
+                    repository.description!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.bodySmall,
+                  ),
+                const SizedBox(
+                  height: 5,
+                ),
+                GithubLabels(repo: repository),
+              ],
+            ),
+          ),
+          const Spacer(),
+          const Icon(
+            Icons.chevron_right_sharp,
+            size: 40,
+          ),
+          const Spacer(),
+        ],
+      ),
     );
   }
 }
 
+// ローディングセル
 final class _LoadingCell extends StatelessWidget {
   const _LoadingCell({this.onVisibled});
 
