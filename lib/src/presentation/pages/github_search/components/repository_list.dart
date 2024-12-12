@@ -18,21 +18,23 @@ final class RepositoryList extends ConsumerWidget {
 
     // 検索結果なし
     if (state.repositories.isEmpty) {
-      // 画面全体ローディング
-      if (state.isLoading) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-      return const Center(
-        child: Text('Github のリポジトリを検索できます'),
+      return SliverFillRemaining(
+        hasScrollBody: false,
+        child: Center(
+          child: state.isLoading
+              // 画面全体ローディング
+              ? const CircularProgressIndicator()
+              : const Text('Github のリポジトリを検索できます'),
+        ),
       );
     }
 
     // リポジトリ一覧
-    return ListView.separated(
-      separatorBuilder: (context, index) => const Divider(),
-      itemCount: state.itemCount,
+    return SliverList.separated(
+      separatorBuilder: (context, index) => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Divider(),
+      ),
       itemBuilder: (context, index) {
         // リポジトリのインデックスが範囲内であれば、リポジトリセルを返す
         if (index < state.repositories.length) {

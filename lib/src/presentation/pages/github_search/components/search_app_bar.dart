@@ -18,7 +18,7 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _ = ref.watch(githubSearchNotifierProvider);
 
-    return AppBar(
+    return SliverAppBar(
       title: _SearchTextField(
         // インクリメント検索の待機時間
         incrementalDuration: const Duration(seconds: 1),
@@ -41,6 +41,8 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
       actions: const [
         _ConditionSearchButton(),
       ],
+      floating: true,
+      pinned: true,
     );
   }
 }

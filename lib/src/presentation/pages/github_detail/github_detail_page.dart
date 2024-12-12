@@ -14,48 +14,51 @@ final class GithubDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(repository.fullName),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              CircleImageAvatar(
-                url: repository.owner.avatarUrl,
-                size: 100,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                repository.fullName,
-                style: context.titleLarge,
-              ),
-              Visibility(
-                visible: repository.description?.isNotEmpty ?? false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 16,
-                  ),
-                  child: Text(
-                    repository.description ?? '',
-                    style: Theme.of(context).textTheme.bodyMedium,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: Text(repository.fullName),
+            pinned: true,
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate.fixed([
+                CircleImageAvatar(
+                  url: repository.owner.avatarUrl,
+                  size: 100,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  repository.fullName,
+                  style: context.titleLarge,
+                ),
+                Visibility(
+                  visible: repository.description?.isNotEmpty ?? false,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 16,
+                    ),
+                    child: Text(
+                      repository.description ?? '',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              GithubLabels(repo: repository),
-              const Divider(),
-              // TODO ----READMEを取得して表示する
-              const Text('README表示予定'),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                GithubLabels(repo: repository),
+                const Divider(),
+                // TODO ----READMEを取得して表示する
+                const Text('README表示予定'),
+              ]),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
