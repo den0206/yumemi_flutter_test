@@ -16,13 +16,13 @@ final class GithubSearchNotifier extends _$GithubSearchNotifier {
 
   GithubRepository get _githubApi => ref.read(githubRepositoryProvider);
 
-  SearchRepositoryQuery get _query => SearchRepositoryQuery(
+  Future<SearchRepositoryQuery> get _query async => SearchRepositoryQuery(
         // 検索文言
         q: state.query,
         // 現在のページ
         page: state.page,
         // 並び替え
-        sort: ref.read(sortTypeNotifierProvider),
+        sort: await ref.read(sortTypeNotifierProvider.future),
       );
 
   void onQueryChanged(String query) {
@@ -46,7 +46,7 @@ final class GithubSearchNotifier extends _$GithubSearchNotifier {
     state = state.copyWith(isLoading: true);
     try {
       // リポジトリ検索
-      final response = await _githubApi.searchRepositories(_query);
+      final response = await _githubApi.searchRepositories(await _query);
 
       // Stateを更新
       state = state.copyWith(
