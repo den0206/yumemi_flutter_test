@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/domain/model/sort_type.dart';
 import 'package:yumemi_flutter_test/src/presentation/notifier/sort_type_notifier.dart';
 
@@ -43,7 +44,7 @@ final class ConditionSearchPanel extends ConsumerWidget {
                 );
               },
             ),
-            SizedBox(height: MediaQuery.of(context).padding.bottom),
+            SizedBox(height: context.paddingBottom),
           ],
         );
       },
