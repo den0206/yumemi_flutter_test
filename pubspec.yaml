@@ -19,6 +19,7 @@ dependencies:
   riverpod_annotation: ^2.6.1
   http: ^1.2.2
   visibility_detector: ^0.4.0+2
+  shared_preferences: ^2.3.3
 
 
 dev_dependencies:
