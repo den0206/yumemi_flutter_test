@@ -1,7 +1,17 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_flutter_test/src/core/service/storage_service.dart';
 import 'package:yumemi_flutter_test/src/domain/model/sort_type.dart';
 
-final class AccountLocalDataSource {
+part '../../_generated/src/infrastructure/local_data_source/account_local_data_source.g.dart';
+
+@Riverpod(keepAlive: true)
+AccountLocalDataSource accountLocalDataSource(Ref ref) {
+  return AccountLocalDataSource();
+}
+
+// アカウント周りのローカル保存を管理するクラス
+class AccountLocalDataSource {
   // ローカル保存: SortType
   Future<SortType> saveSortType(SortType sortType) async {
     await StorageService.sortType.saveString(sortType.name);
