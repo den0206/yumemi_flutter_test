@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/exception/network_exception.dart';
 
@@ -24,6 +25,17 @@ abstract class GithubApiClient {
 
   Uri setUri(String path, [Map<String, dynamic>? query]) {
     return Uri.https(host, path, query);
+  }
+
+  // PAT付与
+  Future<void> _setToken() async {
+    await dotenv.load();
+
+    final token = dotenv.env['GITHUB_TOKEN'];
+
+    if (token != null && token.isNotEmpty) {
+      headers['Authorization'] = 'Bearer $token';
+    }
   }
 
   T _filterResponse<T>(
@@ -80,6 +92,7 @@ extension APIBaseCrud on GithubApiClient {
     required T Function(Map<String, dynamic>) fromJsonT,
   }) async {
     try {
+      await _setToken();
       final res = await client.get(uri, headers: headers).timeout(_timeout);
 
       return _filterResponse<T>(res, fromJsonT);
@@ -96,6 +109,7 @@ extension APIBaseCrud on GithubApiClient {
 
   Future<String> getRawRequest<String>({required Uri uri}) async {
     try {
+      await _setToken();
       headers['Accept'] = 'application/vnd.github.raw+json';
 
       final res = await client.get(uri, headers: headers).timeout(_timeout);
