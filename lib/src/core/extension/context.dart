@@ -26,6 +26,10 @@ extension TextStyleExtension on BuildContext {
     return Theme.of(this).textTheme.titleLarge!;
   }
 
+  TextStyle get titleSmall {
+    return Theme.of(this).textTheme.titleSmall!;
+  }
+
   TextStyle get bodySmall {
     return Theme.of(this).textTheme.bodySmall!;
   }
