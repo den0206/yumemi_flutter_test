@@ -35,6 +35,7 @@ final class RepositoryList extends ConsumerWidget {
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Divider(),
       ),
+      itemCount: state.itemCount,
       itemBuilder: (context, index) {
         // リポジトリのインデックスが範囲内であれば、リポジトリセルを返す
         if (index < state.repositories.length) {
@@ -84,8 +85,8 @@ final class _RepositoryCell extends StatelessWidget {
           CircleImageAvatar(url: repository.owner.avatarUrl),
           const SizedBox(width: 10),
           SizedBox(
-            // 画面横幅の60%を指定
-            width: context.widthPct(.6),
+            // 画面横幅の65%を指定
+            width: context.widthPct(.65),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
