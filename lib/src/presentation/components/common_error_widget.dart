@@ -12,27 +12,21 @@ final class CommonErrorWidget extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Column(
+        spacing: 10,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 10,
-          ),
           // 画面の横幅の30%を指定
           LottieBuilder.asset(
             Assets.lottie.error,
             width: context.widthPct(.3),
             height: context.widthPct(.3),
           ),
-          const SizedBox(
-            height: 5,
-          ),
+
           Text(
             'Error Occured',
             style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+
           Text('再読み込みをお試しください', style: context.bodySmall),
         ],
       ),

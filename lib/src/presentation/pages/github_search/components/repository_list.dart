@@ -83,15 +83,15 @@ final class _RepositoryCell extends StatelessWidget {
         );
       },
       child: Row(
+        spacing: 10,
         children: [
-          const SizedBox(width: 10),
           CircleImageAvatar(url: repository.owner.avatarUrl),
-          const SizedBox(width: 10),
           SizedBox(
             // 画面横幅の65%を指定
             width: context.widthPct(.65),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 5,
               children: [
                 Text(
                   repository.fullName,
@@ -99,9 +99,7 @@ final class _RepositoryCell extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+             
                 if (repository.description != null)
                   Text(
                     repository.description!,
@@ -109,9 +107,7 @@ final class _RepositoryCell extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: context.bodySmall,
                   ),
-                const SizedBox(
-                  height: 5,
-                ),
+              
                 GithubLabels(repo: repository),
               ],
             ),
