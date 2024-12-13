@@ -35,6 +35,10 @@ jobs:
       - name: setup script
         run: make auto
 
+      # .env(環境変数)ファイル作成
+      - name: setup env
+        run: make env  
+
       # 静的解析
       - name: flutter analyze
         run: fvm flutter analyze
