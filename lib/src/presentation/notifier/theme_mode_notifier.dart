@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:yumemi_flutter_test/src/infrastructure/local_data_source/account_local_data_source.dart';
 
-part '../../_generated/src/presentation/notifier/theme_mode_notifier.g.dart';
+final themeModeNotiferProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
+  () => throw UnimplementedError(),
+);
 
 // ThemeModeを管理するクラス
-@Riverpod(keepAlive: true)
-final class ThemeModeNotifer extends _$ThemeModeNotifer {
+final class ThemeModeNotifier extends Notifier<ThemeMode> {
+  ThemeModeNotifier(this._defaultThemeMode);
+
+  final ThemeMode _defaultThemeMode;
+
   @override
   ThemeMode build() {
-    // デフォルトは Lightモード
-    return ThemeMode.light;
+    // デフォルトは main で ローカル値を取得する
+    // ローカルに値がない場合はThemeMode.Light
+    return _defaultThemeMode;
   }
 
+  AccountLocalDataSource get _accountLocalDataSource =>
+      ref.read(accountLocalDataSourceProvider);
+
   // テーマモード更新
-  void setThemeMode(ThemeMode themeMode) {
+  Future<void> setThemeMode(ThemeMode themeMode) async {
     if (state == themeMode) return;
+    // テーマモードのローカル保存
+    await _accountLocalDataSource.saveThemeMode(themeMode);
     state = themeMode;
   }
 }
