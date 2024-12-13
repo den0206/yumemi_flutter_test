@@ -36,10 +36,19 @@ dev_dependencies:
   riverpod_generator: ^2.6.3
   mockito: ^5.4.4
   faker: ^2.2.0
+  flutter_gen_runner: ^5.8.0
 
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - assets/lottie/
+
+# FlutterGenの設定
+flutter_gen:
+  output: lib/src/_generated/gen/
+  lineLength: 80
 
   
   
