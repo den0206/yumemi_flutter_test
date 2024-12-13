@@ -4,6 +4,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_image_avatar.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/common_dialog.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/github_label.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_detail/github_detail_page.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
@@ -51,7 +52,8 @@ final class RepositoryList extends ConsumerWidget {
               //  動作: ページネーション機能
               await ref.read(githubSearchNotifierProvider.notifier).search();
             } catch (e) {
-              debugPrint(e.toString());
+              // 動作: エラーメッセージ表示
+              if (context.mounted) await showError(context, e);
             }
           },
         );
