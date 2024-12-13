@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_icon_button.dart';
+import 'package:yumemi_flutter_test/src/presentation/notifier/theme_mode_notifier.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/components/condition_search_panel.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
 
@@ -39,6 +40,9 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
         },
       ),
       actions: const [
+        // テーマモード変更Switch
+        _ThemeSwitch(),
+        // 条件検索パネル表示ボタン
         _ConditionSearchButton(),
       ],
       floating: true,
@@ -47,6 +51,7 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
   }
 }
 
+// 検索Field
 final class _SearchTextField extends ConsumerStatefulWidget {
   const _SearchTextField({
     this.onChanged,
@@ -184,6 +189,7 @@ class _SearchTextFieldState extends ConsumerState<_SearchTextField> {
   }
 }
 
+// 条件検索パネル表示ボタン
 final class _ConditionSearchButton extends StatelessWidget {
   const _ConditionSearchButton();
 
@@ -200,6 +206,25 @@ final class _ConditionSearchButton extends StatelessWidget {
             return const ConditionSearchPanel();
           },
         );
+      },
+    );
+  }
+}
+
+// テーマモード変更Switch
+// Onはダークモード
+final class _ThemeSwitch extends ConsumerWidget {
+  const _ThemeSwitch();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(themeModeNotiferProvider);
+    return Switch.adaptive(
+      activeColor: Theme.of(context).colorScheme.primary,
+      value: theme == ThemeMode.dark,
+      onChanged: (value) {
+        final themeMode = value ? ThemeMode.dark : ThemeMode.light;
+        ref.read(themeModeNotiferProvider.notifier).setThemeMode(themeMode);
       },
     );
   }
