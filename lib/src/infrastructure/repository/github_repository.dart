@@ -36,4 +36,13 @@ class GithubRepository extends GithubApiClient {
       fromJsonT: SearchRepositoryResponse.fromJson,
     );
   }
+
+  //【GET】 repos/{owner}/{repo}/readme
+  Future<String> getReadme(RepositorySchema repository) async {
+    final uri = setUri(
+      'repos/${repository.owner.login}/${repository.fullName.split("/").last}/readme',
+    );
+
+    return getRawRequest(uri: uri);
+  }
 }
