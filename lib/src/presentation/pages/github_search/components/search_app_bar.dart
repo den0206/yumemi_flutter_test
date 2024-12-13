@@ -145,7 +145,7 @@ class _SearchTextFieldState extends ConsumerState<_SearchTextField> {
             );
           },
         ),
-        fillColor: Colors.grey.withOpacity(0.25),
+        fillColor: Colors.grey.withValues(alpha: 0.25),
         filled: true,
         focusedBorder: border,
         enabledBorder: border,
