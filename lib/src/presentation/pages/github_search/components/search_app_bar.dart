@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_icon_button.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/common_dialog.dart';
 import 'package:yumemi_flutter_test/src/presentation/notifier/theme_mode_notifier.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/components/condition_search_panel.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
@@ -24,8 +25,13 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
         // インクリメント検索の待機時間
         incrementalDuration: const Duration(seconds: 1),
         onSubmitted: (query) async {
-          // キーボード上の検索ボタン: タップ時
-          await ref.read(githubSearchNotifierProvider.notifier).search();
+          try {
+            // キーボード上の検索ボタン: タップ時
+            await ref.read(githubSearchNotifierProvider.notifier).search();
+          } catch (e) {
+            // エラーメッセージ表示
+            if (context.mounted) await showError(context, e);
+          }
         },
         onDeleted: () {
           // 削除ボタン: タップ時
@@ -35,8 +41,13 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
           // 検索文字列変更時
           ref.read(githubSearchNotifierProvider.notifier).onQueryChanged(query);
 
-          // インクリメント検索
-          await ref.read(githubSearchNotifierProvider.notifier).search();
+          try {
+            // インクリメント検索
+            await ref.read(githubSearchNotifierProvider.notifier).search();
+          } catch (e) {
+            // エラーメッセージ表示
+            if (context.mounted) await showError(context, e);
+          }
         },
       ),
       actions: const [
