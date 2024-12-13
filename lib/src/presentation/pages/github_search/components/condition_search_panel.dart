@@ -19,16 +19,15 @@ final class ConditionSearchPanel extends ConsumerWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
+          spacing: 10,
           children: [
             // SortTypeの選択
-            const SizedBox(height: 10),
             const Text(
               '並び替え',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
             ...SortType.values.map(
               (e) {
                 return RadioListTile<SortType>(

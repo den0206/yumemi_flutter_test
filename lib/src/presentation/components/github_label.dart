@@ -46,6 +46,7 @@ final class GithubLabels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 3,
       children: GithubLabelType.values
           .map((e) => _GithubLabel(repo: repo, type: e))
           .toList(),
@@ -61,17 +62,14 @@ final class _GithubLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 3),
-      child: Row(
-        children: [
-          Icon(type.icon),
-          Text(
-            type.getValue(repo).displayNumber,
-            style: context.bodySmall,
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        Icon(type.icon),
+        Text(
+          type.getValue(repo).displayNumber,
+          style: context.bodySmall,
+        ),
+      ],
     );
   }
 }
