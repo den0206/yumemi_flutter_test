@@ -39,8 +39,11 @@ class GithubRepository extends GithubApiClient {
 
   //【GET】 repos/{owner}/{repo}/readme
   Future<String> getReadme(RepositorySchema repository) async {
+    final path =
+        'repos/${repository.owner.login}/${repository.fullName.split("/").last}/readme';
+
     final uri = setUri(
-      'repos/${repository.owner.login}/${repository.fullName.split("/").last}/readme',
+      path,
     );
 
     return getRawRequest(uri: uri);

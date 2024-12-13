@@ -15,11 +15,11 @@ abstract class GithubApiClient {
   final Duration _timeout = const Duration(seconds: 10);
 
   // リクエストヘッダ
-  Map<String, String> get headers => {
-        'Content-type': 'application/json',
-        'Accept': 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28',
-      };
+  final Map<String, String> headers = {
+    'Content-type': 'application/json',
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+  };
 
   Uri setUri(String path, [Map<String, dynamic>? query]) {
     return Uri.https(host, path, query);
