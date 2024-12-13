@@ -33,6 +33,11 @@ abstract class GithubApiClient {
       // ステータスコードのチェック
       _checkStatusCode(response.statusCode);
 
+      // RawDataの場合はStringを返す
+      if (T == String) {
+        return response.body as T;
+      }
+
       // レスポンスの変換
       final handler = _GithubResponseBase<T>.fromResponse(response, fromJsonT);
 
@@ -77,6 +82,21 @@ extension APIBaseCrud on GithubApiClient {
       final res = await client.get(uri, headers: headers).timeout(_timeout);
 
       return _filterResponse<T>(res, fromJsonT);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> getRawRequest<String>({required Uri uri}) async {
+    try {
+      headers['Accept'] = 'application/vnd.github.raw+json';
+
+      final res = await client.get(uri, headers: headers).timeout(_timeout);
+
+      return _filterResponse<String>(
+        res,
+        (json) => json['content'],
+      );
     } catch (e) {
       rethrow;
     }
