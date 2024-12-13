@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/core/extension/theme_mode.dart';
+import 'package:yumemi_flutter_test/src/infrastructure/local_data_source/account_local_data_source.dart';
 import 'package:yumemi_flutter_test/src/presentation/app_router.dart';
 import 'package:yumemi_flutter_test/src/presentation/notifier/theme_mode_notifier.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // ローカルのに保存されているThemeMode を取得
+  final themeMode = await AccountLocalDataSource().loadThemeMode();
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      overrides: [
+        // ThemeMode を上書き
+        themeModeNotiferProvider
+            .overrideWith(() => ThemeModeNotifier(themeMode)),
+      ],
+      child: const MyApp(),
     ),
   );
 }

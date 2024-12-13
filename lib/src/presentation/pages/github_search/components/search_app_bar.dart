@@ -199,6 +199,8 @@ final class _ConditionSearchButton extends StatelessWidget {
       icon: const Icon(Icons.sort),
       onPressed: () async {
         context.dismissKeyboard();
+
+        // 条件検索パネル 表示
         await showModalBottomSheet(
           isScrollControlled: true,
           context: context,
@@ -222,9 +224,13 @@ final class _ThemeSwitch extends ConsumerWidget {
     return Switch.adaptive(
       activeColor: Theme.of(context).colorScheme.primary,
       value: theme == ThemeMode.dark,
-      onChanged: (value) {
+      onChanged: (value) async {
         final themeMode = value ? ThemeMode.dark : ThemeMode.light;
-        ref.read(themeModeNotiferProvider.notifier).setThemeMode(themeMode);
+
+        // テーマモード切り替え
+        await ref
+            .read(themeModeNotiferProvider.notifier)
+            .setThemeMode(themeMode);
       },
     );
   }
