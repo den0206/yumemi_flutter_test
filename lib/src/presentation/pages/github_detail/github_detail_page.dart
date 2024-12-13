@@ -104,7 +104,7 @@ final class _ReadmeArea extends ConsumerWidget {
         }
 
         // TODO ---- 共通ローディング画面に移行
-        return const CircularProgressIndicator();
+        return const CircularProgressIndicator.adaptive();
       },
     );
   }
