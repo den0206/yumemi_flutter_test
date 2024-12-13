@@ -16,6 +16,16 @@ final class NetworkException extends CustomException {
         codeServiceUnavailable,
       );
 
+  // ネットワークエラー
+  factory NetworkException.noInternetConnection() => const NetworkException._(
+        codeNoInternetConnection,
+      );
+
+  // タイムアウトエラー
+  factory NetworkException.timeout() => const NetworkException._(
+        codeTimeout,
+      );
+
   /// 不明なエラー
   factory NetworkException.unknown() => const NetworkException._(
         codeUnknown,
@@ -35,6 +45,10 @@ final class NetworkException extends CustomException {
         return '422 Validation Failed';
       case codeServiceUnavailable:
         return '503 Service unavailable';
+      case codeNoInternetConnection:
+        return 'No Internet Connection';
+      case codeTimeout:
+        return 'TimeOut Error';
       default:
         return 'Unknown Error';
     }
@@ -44,6 +58,8 @@ final class NetworkException extends CustomException {
   static const codeNotModified = 'not-modified';
   static const codeValidationFailed = 'validation-failed';
   static const codeServiceUnavailable = 'service-unavailable';
+  static const codeNoInternetConnection = 'no-internet-connection';
+  static const codeTimeout = 'timeout';
   static const codeUnknown = 'unknown';
 
   /// エラーコード

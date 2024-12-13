@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/exception/network_exception.dart';
@@ -82,6 +83,12 @@ extension APIBaseCrud on GithubApiClient {
       final res = await client.get(uri, headers: headers).timeout(_timeout);
 
       return _filterResponse<T>(res, fromJsonT);
+    } on SocketException catch (_) {
+      // ネットワーク接続エラー
+      throw NetworkException.noInternetConnection();
+    } on TimeoutException {
+      // タイムアウトエラー
+      throw NetworkException.timeout();
     } catch (e) {
       rethrow;
     }
@@ -97,6 +104,12 @@ extension APIBaseCrud on GithubApiClient {
         res,
         (json) => json['content'],
       );
+    } on SocketException catch (_) {
+      // ネットワーク接続エラー
+      throw NetworkException.noInternetConnection();
+    } on TimeoutException {
+      // タイムアウトエラー
+      throw NetworkException.timeout();
     } catch (e) {
       rethrow;
     }
