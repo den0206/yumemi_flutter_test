@@ -11,6 +11,7 @@ import 'package:yumemi_flutter_test/src/infrastructure/repository/github_reposit
 
 import '../../_generated/src/domain/annotations/repository.mocks.dart';
 import '../../domain/entity/github/repository/search/mock_data.dart';
+import '../../domain/factory/github_factory.dart';
 
 void main() {
   final mockClient = MockClient();
@@ -123,4 +124,21 @@ void main() {
       );
     });
   });
+
+  group(
+    'readme',
+    () {
+      // 200: 正常系
+      test('正常系(200): モックデータ', () async {
+        final repo = RepositoryFactory().generateFake();
+        const statusCode = 200;
+        const json = 'README';
+        when(mockClient.get(any, headers: anyNamed('headers')))
+            .thenAnswer((_) async => http.Response(json, statusCode));
+
+        final readme = await repository.getReadme(repo);
+        expect(readme, json);
+      });
+    },
+  );
 }
