@@ -21,6 +21,7 @@ dependencies:
   visibility_detector: ^0.4.0+2
   shared_preferences: ^2.3.3
   flutter_markdown: ^0.7.4
+  collection: any
 
 
 dev_dependencies:
