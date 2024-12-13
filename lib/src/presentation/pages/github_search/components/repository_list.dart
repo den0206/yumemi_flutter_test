@@ -92,6 +92,7 @@ final class _RepositoryCell extends StatelessWidget {
               children: [
                 Text(
                   repository.fullName,
+                  style: context.titleSmall,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
