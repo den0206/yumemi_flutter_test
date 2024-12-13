@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/domain/model/sort_type.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/common_error_widget.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/common_loading_widget.dart';
 import 'package:yumemi_flutter_test/src/presentation/notifier/sort_type_notifier.dart';
 
 // 条件選択を変更するパネル
@@ -48,12 +50,8 @@ final class ConditionSearchPanel extends ConsumerWidget {
           ],
         );
       },
-      // TODO ---- 共通ローディング画面に移行
-      loading: () => const Center(child: CircularProgressIndicator()),
-      // TODO ---- 共通エラー画面に移行
-      error: (error, stackTrace) => Center(
-        child: Text(error.toString()),
-      ),
+      loading: () => const CommonLoadingWidget(),
+      error: (error, stackTrace) => const CommonErrorWidget(),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_image_avatar.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/common_dialog.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/common_loading_widget.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/github_label.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_detail/github_detail_page.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
@@ -24,7 +25,7 @@ final class RepositoryList extends ConsumerWidget {
         child: Center(
           child: state.isLoading
               // 画面全体ローディング
-              ? const CircularProgressIndicator()
+              ? const CommonLoadingWidget()
               : const Text('Github のリポジトリを検索できます'),
         ),
       );
@@ -136,7 +137,8 @@ final class _LoadingCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return VisibilityDetector(
       key: const Key('next_page'),
-      child: const CircularProgressIndicator.adaptive(),
+      // 画面の高さの10%を指定
+      child: CommonLoadingWidget(size: context.heightPct(.1)),
       onVisibilityChanged: (info) {
         if (info.visibleFraction > 0.5) {
           onVisibled?.call();

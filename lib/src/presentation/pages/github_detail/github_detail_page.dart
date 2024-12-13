@@ -5,6 +5,8 @@ import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/repository/github_repository.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_image_avatar.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/common_error_widget.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/common_loading_widget.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/github_label.dart';
 
 final class GithubDetailPage extends StatelessWidget {
@@ -59,6 +61,11 @@ final class GithubDetailPage extends StatelessWidget {
 
                 // README 表示
                 _ReadmeArea(repository),
+
+                // 下部余白
+                SizedBox(
+                  height: context.paddingBottom,
+                ),
               ]),
             ),
           ),
@@ -80,10 +87,7 @@ final class _ReadmeArea extends ConsumerWidget {
       future: searchRepo.getReadme(repository),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          // TODO ---- 共通エラー画面に移行
-          return Center(
-            child: Text('エラー:${snapshot.error}'),
-          );
+          return const CommonErrorWidget();
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return MarkdownBody(
@@ -103,8 +107,7 @@ final class _ReadmeArea extends ConsumerWidget {
           );
         }
 
-        // TODO ---- 共通ローディング画面に移行
-        return const CircularProgressIndicator.adaptive();
+        return const CommonLoadingWidget();
       },
     );
   }
