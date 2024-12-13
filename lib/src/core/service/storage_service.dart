@@ -5,7 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 // ローカルデータソース 経由で使用してください
 enum StorageService {
   // 条件検索: ソートタイプ
-  sortType;
+  sortType,
+  // テーマモード(Light/Dark モード)
+  themeMode;
 
   // String 型の保存
   Future<bool> saveString(String value) async {
