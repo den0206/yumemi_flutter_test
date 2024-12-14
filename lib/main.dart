@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_test/src/core/extension/theme_mode.dart';
+import 'package:yumemi_flutter_test/src/core/service/navigation_service.dart';
 import 'package:yumemi_flutter_test/src/domain/model/language.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/local_data_source/account_local_data_source.dart';
 import 'package:yumemi_flutter_test/src/presentation/app_router.dart';
@@ -43,6 +44,7 @@ final class MyApp extends ConsumerWidget {
       themeMode: theme,
       theme: theme.light,
       darkTheme: theme.dark,
+      navigatorKey: NavigationService.navigatorKey,
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: Languages.supportedlanguage,
       locale: language.locale,
