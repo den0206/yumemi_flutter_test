@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
+import 'package:yumemi_flutter_test/src/core/widget_key/search/search_page_key.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_icon_button.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/common_dialog.dart';
 import 'package:yumemi_flutter_test/src/presentation/notifier/theme_mode_notifier.dart';
@@ -123,6 +124,7 @@ class _SearchTextFieldState extends ConsumerState<_SearchTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      key: SearchPageKey.searchTextField,
       controller: _controller,
       decoration: InputDecoration(
         // 多言語: リポジトリ検索
