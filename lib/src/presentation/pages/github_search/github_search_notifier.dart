@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/exception/network_exception.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/query.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/repository/github_repository.dart';
+import 'package:yumemi_flutter_test/src/presentation/notifier/query_history_notifier.dart';
 import 'package:yumemi_flutter_test/src/presentation/notifier/sort_type_notifier.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_state.dart';
 
@@ -53,6 +54,14 @@ final class GithubSearchNotifier extends _$GithubSearchNotifier {
         // 検索結果が0件の場合
         throw NetworkException.notFoundRepository();
       }
+
+      if (!isPaging) {
+        // 初回検索時に検索履歴に追加
+        await ref
+            .read(queryHistoryNotifierProvider.notifier)
+            .addHistory(state.query);
+      }
+
       // Stateを更新
       state = state.copyWith(
         repositories: [...state.repositories, ...response.items],
