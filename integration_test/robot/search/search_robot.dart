@@ -8,6 +8,7 @@ final class SearchRobot implements BaseRobot {
     required this.operator,
     required this.verifier,
     required this.testData,
+    required this.testCategory,
   });
 
   @override
@@ -19,6 +20,9 @@ final class SearchRobot implements BaseRobot {
   @override
   final BaseTestData testData;
 
+  @override
+  final String testCategory;
+
   Future<void> searchQuery() async {
     // 動作
     await operator.entryTextCorrectQuery(testData);
@@ -27,6 +31,9 @@ final class SearchRobot implements BaseRobot {
     verifier.findQuery(testData);
     verifier.findTargetRepository(testData);
     verifier.findCellContents();
+
+    // スクリーンショット
+    await takeScreenShot('input_query');
   }
 
   Future<void> searchQueryNotFound() async {
@@ -36,6 +43,9 @@ final class SearchRobot implements BaseRobot {
     // 検証
     verifier.notFindCellContents();
     verifier.findErrorDialog();
+
+    // スクリーンショット
+    await takeScreenShot('not_found_repository');
   }
 
   Future<void> tapRepository() async {

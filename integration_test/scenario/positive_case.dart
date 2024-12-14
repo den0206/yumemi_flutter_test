@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:yumemi_flutter_test/main.dart' as app;
 
 import '../robot/detail/detail_operator.dart';
@@ -10,7 +11,9 @@ import '../robot/search/search_verifier.dart';
 import '../test_data/positive_test_data.dart';
 
 void main() {
+  final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   final testData = SearchTestData();
+  const category = 'positive_case_test';
 
   testWidgets(
     '検索シナリオ',
@@ -20,18 +23,23 @@ void main() {
       // リポジトリ一覧画面
       final searchRobot = SearchRobot(
         operator: SearchOperator(tester: tester),
-        verifier: SearchVerifier(),
+        verifier: SearchVerifier(binding: binding),
+        testCategory: category,
         testData: testData,
       );
 
       // リポジトリ詳細画面
       final detailRobot = DetailRobot(
         operator: DetailOperator(tester: tester),
-        verifier: DetailVerifier(),
+        verifier: DetailVerifier(binding: binding),
+        testCategory: category,
         testData: testData,
       );
 
       app.main();
+
+      // Androidでスクリーンショットを撮影するために必要
+      await binding.convertFlutterSurfaceToImage();
 
       await tester.pumpAndSettle();
 
