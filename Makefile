@@ -22,3 +22,16 @@ else
 	@echo "╠ 環境変数の作成"
 	@echo "GITHUB_TOKEN=${GITHUB_TOKEN}" >> .env
 endif
+
+## シナリオテスト
+## シナリオケース追加時は以下に追加して下さい
+## todo: for文で実装検討
+scenario:
+	@echo "╠ 検索のシナリオテスト実行"
+	fvm flutter drive \
+	--driver=integration_test/test_driver/integration_test.dart \
+	--target=integration_test/scenario/positive_case.dart
+	@echo "╠ 検索結果0件のシナリオテスト実行"
+	fvm flutter drive \
+	--driver=integration_test/test_driver/integration_test.dart \
+	--target=integration_test/scenario/negative_case.dart
