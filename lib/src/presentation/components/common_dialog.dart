@@ -9,7 +9,7 @@ import 'package:yumemi_flutter_test/src/core/widget_key/common/dialog_key.dart';
 Future<void> showError(BuildContext context, Object err) async {
   if (!context.mounted) return;
 
-  await _showCommonDialog(
+  await showCommonDialog(
     key: DialogKey.error,
     context: context,
     // 多言語: エラーが発生しました
@@ -25,8 +25,7 @@ bool _isDialogShowing = false;
 // 共通コンポーネント
 // iOS: CupertinoDialogを表示する
 // Android: AlertDialogを表示する
-// 現在はPrivate
-Future<void> _showCommonDialog({
+Future<void> showCommonDialog({
   required BuildContext context,
   Key? key,
   String? title,

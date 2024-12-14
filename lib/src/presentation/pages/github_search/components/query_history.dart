@@ -4,6 +4,7 @@ import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.da
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/core/widget_key/search/search_page_key.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/local_data_source/account_local_data_source.dart';
+import 'package:yumemi_flutter_test/src/presentation/components/common_dialog.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/common_error_widget.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/common_loading_widget.dart';
 import 'package:yumemi_flutter_test/src/presentation/notifier/query_history_notifier.dart';
@@ -47,10 +48,18 @@ final class QueryHistoryArea extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () async {
-                      //  動作: 履歴全削除
-                      await ref
-                          .read(queryHistoryNotifierProvider.notifier)
-                          .deleteAll();
+                      // 動作: 履歴全削除ダイアログ表示
+                      await showCommonDialog(
+                        context: context,
+                        // 多言語: 履歴全削除
+                        title: L10n.of(context).delete_all_queries,
+                        okAction: () async {
+                          // 動作: 履歴全削除
+                          await ref
+                              .read(queryHistoryNotifierProvider.notifier)
+                              .deleteAll();
+                        },
+                      );
                     },
                   ),
                 ],
