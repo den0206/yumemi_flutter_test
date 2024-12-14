@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_icon_button.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/common_dialog.dart';
@@ -121,7 +122,8 @@ class _SearchTextFieldState extends ConsumerState<_SearchTextField> {
     return TextField(
       controller: _controller,
       decoration: InputDecoration(
-        hintText: 'リポジトリ検索',
+        // 多言語: リポジトリ検索
+        hintText: L10n.of(context).search_repository,
         contentPadding: const EdgeInsets.all(10),
         prefixIcon: Icon(Icons.search, color: IconTheme.of(context).color),
         suffixIcon: ValueListenableBuilder<TextEditingValue>(

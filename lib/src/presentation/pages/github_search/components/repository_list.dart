@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_image_avatar.dart';
@@ -26,7 +27,8 @@ final class RepositoryList extends ConsumerWidget {
           child: state.isLoading
               // 画面全体ローディング
               ? const CommonLoadingWidget()
-              : const Text('Github のリポジトリを検索できます'),
+              // 多言語: Github 検索
+              : Text(L10n.of(context).github_search),
         ),
       );
     }
@@ -99,7 +101,6 @@ final class _RepositoryCell extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
-             
                 if (repository.description != null)
                   Text(
                     repository.description!,
@@ -107,7 +108,6 @@ final class _RepositoryCell extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: context.bodySmall,
                   ),
-              
                 GithubLabels(repo: repository),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/domain/model/sort_type.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/common_error_widget.dart';
@@ -22,9 +23,10 @@ final class ConditionSearchPanel extends ConsumerWidget {
           spacing: 10,
           children: [
             // SortTypeの選択
-            const Text(
-              '並び替え',
-              style: TextStyle(
+            Text(
+              // 多言語: 並び替え
+              L10n.of(context).sort,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
