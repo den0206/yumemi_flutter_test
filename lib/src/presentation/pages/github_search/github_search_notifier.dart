@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:yumemi_flutter_test/src/domain/entity/github/repository/exception/network_exception.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/query.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/repository/github_repository.dart';
 import 'package:yumemi_flutter_test/src/presentation/notifier/sort_type_notifier.dart';
@@ -48,6 +49,10 @@ final class GithubSearchNotifier extends _$GithubSearchNotifier {
       // リポジトリ検索
       final response = await _githubApi.searchRepositories(await _query);
 
+      if (response.totalCount == 0 && state.page == 1) {
+        // 検索結果が0件の場合
+        throw NetworkException.notFoundRepository();
+      }
       // Stateを更新
       state = state.copyWith(
         repositories: [...state.repositories, ...response.items],
