@@ -16,5 +16,6 @@
     "service_unavailable": "Service Unavailable (503)",
     "unknown": "An unknown error has occurred. (-1)",
     "no_internet": "No Internet Connection",
-    "loading_error": "An error occurred during loading"
+    "timeout": "Timeout",
+    "loading_error": "Please try reloading"
 }
