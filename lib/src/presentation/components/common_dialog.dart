@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
+import 'package:yumemi_flutter_test/src/core/widget_key/common/dialog_key.dart';
 
 // エラーダイアログ表示の共通関数
 Future<void> showError(BuildContext context, Object err) async {
   if (!context.mounted) return;
 
   await _showCommonDialog(
+    key: DialogKey.error,
     context: context,
     // 多言語: エラーが発生しました
     title: L10n.of(context).error_occurred,
@@ -56,6 +58,7 @@ Future<void> _showCommonDialog({
               content != null ? Text(content, textAlign: contentAlign) : null,
           actions: [
             CupertinoDialogAction(
+              key: DialogKey.cancel,
               onPressed: () async {
                 if (Navigator.canPop(ctx)) Navigator.of(ctx).pop();
               },
@@ -65,6 +68,7 @@ Future<void> _showCommonDialog({
             ),
             if (okAction != null)
               CupertinoDialogAction(
+                key: DialogKey.ok,
                 onPressed: () {
                   Navigator.of(ctx).pop();
                   okAction.call();
@@ -95,6 +99,7 @@ Future<void> _showCommonDialog({
               : null,
           actions: [
             TextButton(
+              key: DialogKey.cancel,
               child: Text(
                 okAction != null ? cancelString : okString,
               ),
@@ -104,6 +109,7 @@ Future<void> _showCommonDialog({
             ),
             if (okAction != null)
               TextButton(
+                key: DialogKey.ok,
                 child: Text(okString),
                 onPressed: () {
                   okAction.call();
