@@ -14,6 +14,7 @@
     "not_modified" : "Not Modified(304)",
     "validation_failed": "Validation Failed (422)",
     "service_unavailable": "サービス利用不可 (503)",
+    "no_search_result": "検索結果は0件です",
     "unknown": "不明なエラー (-1)",
     "no_internet": "インターネットに接続されていないようです",
     "timeout": "タイムアウト",
