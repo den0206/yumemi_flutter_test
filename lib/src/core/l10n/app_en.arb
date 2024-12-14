@@ -17,5 +17,27 @@
     "unknown": "An unknown error has occurred. (-1)",
     "no_internet": "No Internet Connection",
     "timeout": "Timeout",
-    "loading_error": "Please try reloading"
+    "loading_error": "Please try reloading",
+    "search_result": "Results for {query}",
+    "@search_result": {
+      "placeholders": {
+        "query": {
+          "type": "String",
+          "format": "compact"
+        }
+      }
+    },
+    "search_length": "Items in {current}/{total}",
+    "@search_length": {
+      "placeholders": {
+        "current": {
+          "type": "int",
+          "format": "compact"
+        },
+        "total": {
+            "type": "int",
+            "format": "compact"
+          }
+      }
+    }
 }

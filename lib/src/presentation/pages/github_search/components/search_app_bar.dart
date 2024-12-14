@@ -265,12 +265,15 @@ final class _TotalCountText extends ConsumerWidget
     return state.repositories.isEmpty
         ? Container()
         : ListTile(
+            // 多言語: {検索文言} の検索結果
             leading: Text(
-              '${state.query} の検索結果',
+              L10n.of(context).search_result(state.query),
               style: context.titleSmall,
             ),
+            //多言語: {現在の取得数}件/{合計数}件表示中
             trailing: Text(
-              '${state.repositories.length}/${state.totalCount}件表示中',
+              L10n.of(context)
+                  .search_length(state.repositories.length, state.totalCount),
             ),
           );
   }
