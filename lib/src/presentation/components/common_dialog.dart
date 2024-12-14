@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
 
 // エラーダイアログ表示の共通関数
 Future<void> showError(BuildContext context, Object err) async {
@@ -9,7 +10,8 @@ Future<void> showError(BuildContext context, Object err) async {
 
   await _showCommonDialog(
     context: context,
-    title: 'Error',
+    // 多言語: エラーが発生しました
+    title: L10n.of(context).error_occurred,
     content: err.toString(),
   );
 }
@@ -35,6 +37,14 @@ Future<void> _showCommonDialog({
 
   _isDialogShowing = true;
 
+  final l10n = L10n.of(context);
+
+  // 多言語: OK
+  final okString = l10n.ok;
+
+  // 多言語: キャンセル
+  final cancelString = l10n.cancel;
+
   if (Platform.isIOS && context.mounted) {
     await showCupertinoDialog(
       context: context,
@@ -50,7 +60,7 @@ Future<void> _showCommonDialog({
                 if (Navigator.canPop(ctx)) Navigator.of(ctx).pop();
               },
               child: Text(
-                okAction != null ? 'Cancel' : 'OK',
+                okAction != null ? cancelString : okString,
               ),
             ),
             if (okAction != null)
@@ -61,8 +71,8 @@ Future<void> _showCommonDialog({
                 },
                 isDefaultAction: true,
                 isDestructiveAction: true,
-                child: const Text(
-                  'OK',
+                child: Text(
+                  okString,
                 ),
               ),
           ],
@@ -86,7 +96,7 @@ Future<void> _showCommonDialog({
           actions: [
             TextButton(
               child: Text(
-                okAction != null ? 'Cancel' : 'OK',
+                okAction != null ? cancelString : okString,
               ),
               onPressed: () async {
                 Navigator.of(ctx).pop();
@@ -94,7 +104,7 @@ Future<void> _showCommonDialog({
             ),
             if (okAction != null)
               TextButton(
-                child: const Text('OK'),
+                child: Text(okString),
                 onPressed: () {
                   okAction.call();
                   Navigator.of(ctx).pop();
