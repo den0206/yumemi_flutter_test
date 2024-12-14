@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yumemi_flutter_test/src/domain/model/sort_type.dart';
@@ -47,5 +48,19 @@ void main() {
         expect(deletedSortType, SortType.bestMatch);
       },
     );
+  });
+
+  group('ThemeMode のテスト', () {
+    test('ThemeMode 初期値の確認', () async {
+      final savedThemeMode = await authLocalDataSource.loadThemeMode();
+      expect(savedThemeMode, ThemeMode.light);
+    });
+    test('ThemeMode 保存', () async {
+      // ランダム値の生成
+      final themeMode = random.rEnum(ThemeMode.values);
+      await authLocalDataSource.saveThemeMode(themeMode);
+      final savedThemeMode = await authLocalDataSource.loadThemeMode();
+      expect(savedThemeMode, themeMode);
+    });
   });
 }
