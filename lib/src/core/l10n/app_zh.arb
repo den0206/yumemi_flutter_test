@@ -1,0 +1,23 @@
+{
+    "@@locale": "zh",
+    "test": "测试",
+    "ok"  : "确定",
+    "cancel": "取消",
+    "error_occurred": "发生错误",
+    "search_repository": "搜索仓库",
+    "sort": "排序",
+    "best_match": "最佳匹配",
+    "stars": "星数",
+    "forks": "叉数",
+    "help_wanted": "問題数",
+    "github_search": "Github 検索",
+    "not_modified" : "Not Modified(304)",
+    "validation_failed": "Validation Failed (422)",
+    "service_unavailable": "服务不可用 (503)",
+    "unknown": "未知错误 (-1)",
+    "no_internet": "无网络错误",
+    "loading_error": "加载中发生错误"
+}
+
+
+
