@@ -35,6 +35,20 @@ enum GithubLabelType {
         return repo.watchersCount;
     }
   }
+
+  // IntegrationTest用のKey
+  Key get key {
+    switch (this) {
+      case GithubLabelType.star:
+        return const Key('star');
+      case GithubLabelType.fork:
+        return const Key('fork');
+      case GithubLabelType.openIssue:
+        return const Key('open_issue');
+      case GithubLabelType.wathchers:
+        return const Key('wathchers');
+    }
+  }
 }
 
 // リポジトリ一覧画面、詳細画面で使用予定の為、共通コンポーネント
@@ -63,6 +77,7 @@ final class _GithubLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      key: type.key,
       children: [
         Icon(type.icon),
         Text(
