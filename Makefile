@@ -6,6 +6,11 @@ auto: ## 自動生成コマンド
 	@echo "╠ 自動生成ファイル"
 	rm -rf lib/src/_generated
 	rm -rf test/src/_generated
+
+## 多言語生成
+	fvm flutter gen-l10n
+
+## 自動生成ファイル
 	fvm dart run build_runner build --delete-conflicting-outputs
 
 ## Make env GITHUB_TOKEN=github_pat_....
