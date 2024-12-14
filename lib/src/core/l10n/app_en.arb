@@ -40,5 +40,18 @@
             "format": "compact"
           }
       }
+    },
+    "query_history": "History: {current}/{max}",
+    "@query_history": {
+      "placeholders": {
+        "current": {
+          "type": "int",
+          "format": "compact"
+        },
+        "max": {
+            "type": "int",
+            "format": "compact"
+          }
+      }
     }
 }
