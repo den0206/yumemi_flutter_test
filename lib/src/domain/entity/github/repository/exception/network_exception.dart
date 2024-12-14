@@ -28,6 +28,12 @@ final class NetworkException extends CustomException {
         codeTimeout,
       );
 
+  // リポジトリ検索結果0件
+  // エラーでは無いが、NetworkExceptionとして定義します
+  factory NetworkException.notFoundRepository() => const NetworkException._(
+        codeNotFoundRepository,
+      );
+
   /// 不明なエラー
   factory NetworkException.unknown() => const NetworkException._(
         codeUnknown,
@@ -54,6 +60,8 @@ final class NetworkException extends CustomException {
         return l10n.no_internet;
       case codeTimeout:
         return l10n.timeout;
+      case codeNotFoundRepository:
+        return l10n.no_search_result;
       default:
         return l10n.unknown;
     }
@@ -65,6 +73,7 @@ final class NetworkException extends CustomException {
   static const codeServiceUnavailable = 'service-unavailable';
   static const codeNoInternetConnection = 'no-internet-connection';
   static const codeTimeout = 'timeout';
+  static const codeNotFoundRepository = 'not-found-repository';
   static const codeUnknown = 'unknown';
 
   /// エラーコード
