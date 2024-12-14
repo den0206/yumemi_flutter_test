@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:yumemi_flutter_test/src/core/widget_key/common/dialog_key.dart';
 
 import '../../test_data/base_test_data.dart';
 import '../base_robot.dart';
@@ -29,6 +30,17 @@ final class SearchOperator implements BaseOperator {
   Future<void> tapRepository(BaseTestData testData) async {
     final targetCell = find.text(testData.testRepositoryName).at(0);
     await tester.tap(targetCell);
+    await tester.pumpAndSettle();
+  }
+
+  // 動作: ダイアログを閉じる
+  Future<void> closeDialog() async {
+    final closeDialogButton = find.descendant(
+      of: find.byKey(DialogKey.error),
+      matching: find.byKey(DialogKey.cancel),
+    );
+
+    await tester.tap(closeDialogButton);
     await tester.pumpAndSettle();
   }
 }
