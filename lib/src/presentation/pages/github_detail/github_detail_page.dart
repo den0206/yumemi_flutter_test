@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
+import 'package:yumemi_flutter_test/src/core/widget_key/detail/detail_page_key.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 import 'package:yumemi_flutter_test/src/infrastructure/repository/github_repository.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_image_avatar.dart';
@@ -30,6 +31,7 @@ final class GithubDetailPage extends StatelessWidget {
             sliver: SliverList(
               delegate: SliverChildListDelegate.fixed([
                 CircleImageAvatar(
+                  key: DetailPageKey.avatar,
                   url: repository.owner.avatarUrl,
                   size: 100,
                 ),
@@ -37,6 +39,7 @@ final class GithubDetailPage extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
+                  key: DetailPageKey.fullName,
                   repository.fullName,
                   style: context.titleLarge,
                 ),
@@ -91,6 +94,7 @@ final class _ReadmeArea extends ConsumerWidget {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return MarkdownBody(
+            key: DetailPageKey.readme,
             onTapLink: (_, href, __) {
               if (href != null) {
                 debugPrint(href);
