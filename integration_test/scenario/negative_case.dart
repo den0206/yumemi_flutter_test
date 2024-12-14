@@ -27,7 +27,7 @@ void main() {
       // Androidでスクリーンショットを撮影するために必要
       await binding.convertFlutterSurfaceToImage();
 
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 3));
 
       // 検索動作(0件)
       // エラーダイアログを表示
@@ -35,6 +35,9 @@ void main() {
 
       // ダイアログを閉じる
       await searchRobot.closeDialog();
+
+      // 検索履歴が表示しない
+      await searchRobot.notFindQueryHistory();
     },
   );
 }
