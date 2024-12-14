@@ -17,7 +17,9 @@
     "unknown": "未知错误 (-1)",
     "no_internet": "无网络错误",
     "timeout": "超时",
-    "loading_error": "请尝试重新加载"
+    "loading_error": "请尝试重新加载",
+    "search_result": "{query} 的搜索结果",
+    "search_length": "{current}件/{total}件显示中"
 }
 
 

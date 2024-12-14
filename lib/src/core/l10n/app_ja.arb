@@ -17,5 +17,7 @@
     "unknown": "不明なエラー (-1)",
     "no_internet": "インターネットに接続されていないようです",
     "timeout": "タイムアウト",
-    "loading_error": "再読み込みをお試しください"
+    "loading_error": "再読み込みをお試しください",
+    "search_result": "{query} の検索結果",
+    "search_length": "{current}件/{total}件表示中"
 }
