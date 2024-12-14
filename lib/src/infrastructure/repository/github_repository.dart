@@ -8,7 +8,7 @@ import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/r
 part '../../_generated/src/infrastructure/repository/github_repository.g.dart';
 
 // アプリケーション内で使用するHttpClient
-@riverpod
+@Riverpod(keepAlive: true)
 http.Client httpClient(Ref ref) {
   return http.Client();
 }
