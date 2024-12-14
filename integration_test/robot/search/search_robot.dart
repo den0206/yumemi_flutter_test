@@ -29,8 +29,22 @@ final class SearchRobot implements BaseRobot {
     verifier.findCellContents();
   }
 
+  Future<void> searchQueryNotFound() async {
+    // 動作
+    await operator.entryTextCorrectQuery(testData);
+
+    // 検証
+    verifier.notFindCellContents();
+    verifier.findErrorDialog();
+  }
+
   Future<void> tapRepository() async {
     //動作
     await operator.tapRepository(testData);
+  }
+
+  Future<void> closeDialog() async {
+    // 動作
+    await operator.closeDialog();
   }
 }
