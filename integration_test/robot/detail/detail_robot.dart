@@ -8,6 +8,7 @@ final class DetailRobot implements BaseRobot {
     required this.operator,
     required this.verifier,
     required this.testData,
+    required this.testCategory,
   });
 
   @override
@@ -19,9 +20,15 @@ final class DetailRobot implements BaseRobot {
   @override
   final BaseTestData testData;
 
+  @override
+  final String testCategory;
+
   Future<void> findElements() async {
     // 検証
     verifier.findElements();
+
+    // スクリーンショット
+    await takeScreenShot('detail_repository');
   }
 
   Future<void> tabBackButton() async {

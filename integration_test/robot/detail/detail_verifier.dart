@@ -1,10 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:yumemi_flutter_test/src/core/widget_key/detail/detail_page_key.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/github_label.dart';
 
 import '../base_robot.dart';
 
 final class DetailVerifier implements BaseVerifier {
+  DetailVerifier({required this.binding});
+
+  @override
+  final IntegrationTestWidgetsFlutterBinding binding;
+
   void findElements() {
     _findAvatarArea();
     _findFullNameArea();

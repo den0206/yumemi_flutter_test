@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:yumemi_flutter_test/src/core/widget_key/common/dialog_key.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/github_label.dart';
 
@@ -7,6 +8,11 @@ import '../../test_data/base_test_data.dart';
 import '../base_robot.dart';
 
 final class SearchVerifier implements BaseVerifier {
+  SearchVerifier({required this.binding});
+
+  @override
+  final IntegrationTestWidgetsFlutterBinding binding;
+
   // 検証: 検索文言が存在するか
   void findQuery(BaseTestData testData) {
     expect(find.text(testData.testQuery), findsWidgets);
