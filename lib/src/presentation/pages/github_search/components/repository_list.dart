@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/github/repository/search/response.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/circle_image_avatar.dart';
@@ -9,6 +8,7 @@ import 'package:yumemi_flutter_test/src/presentation/components/common_dialog.da
 import 'package:yumemi_flutter_test/src/presentation/components/common_loading_widget.dart';
 import 'package:yumemi_flutter_test/src/presentation/components/github_label.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_detail/github_detail_page.dart';
+import 'package:yumemi_flutter_test/src/presentation/pages/github_search/components/query_history.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_notifier.dart';
 import 'package:yumemi_flutter_test/src/presentation/pages/github_search/github_search_state.dart';
 
@@ -27,8 +27,8 @@ final class RepositoryList extends ConsumerWidget {
           child: state.isLoading
               // 画面全体ローディング
               ? const CommonLoadingWidget()
-              // 多言語: Github 検索
-              : Text(L10n.of(context).github_search),
+              // 履歴表示エリア
+              : const QueryHistoryArea(),
         ),
       );
     }
