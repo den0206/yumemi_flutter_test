@@ -1,6 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:yumemi_flutter_test/main.dart' as app;
 
+import '../robot/detail/detail_operator.dart';
+import '../robot/detail/detail_robot.dart';
+import '../robot/detail/detail_verifier.dart';
 import '../robot/search/search_operator.dart';
 import '../robot/search/search_robot.dart';
 import '../robot/search/search_verifier.dart';
@@ -21,6 +24,13 @@ void main() {
         testData: testData,
       );
 
+      // リポジトリ詳細画面
+      final detailRobot = DetailRobot(
+        operator: DetailOperator(tester: tester),
+        verifier: DetailVerifier(),
+        testData: testData,
+      );
+
       app.main();
 
       await tester.pumpAndSettle();
@@ -31,6 +41,12 @@ void main() {
       // リポジトリ選択動作
       // 詳細画面へ遷移
       await searchRobot.tapRepository();
+
+      // 詳細画面検証
+      await detailRobot.findElements();
+
+      // 戻る動作
+      await detailRobot.tabBackButton();
     },
   );
 }
