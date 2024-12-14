@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 
 import '../test_data/base_test_data.dart';
 
@@ -12,6 +13,18 @@ abstract interface class BaseRobot {
 
   /// テストデータを指定するクラス
   BaseTestData get testData;
+
+  /// テストの種別(スクリーンショットの撮影に使用)
+  String get testCategory;
+}
+
+extension BaseRobotExt on BaseRobot {
+  /// スクリーンショットを撮る関数
+  Future<void> takeScreenShot(String name) async {
+    await verifier.binding.takeScreenshot(
+      '<$testCategory>_$name',
+    );
+  }
 }
 
 /// アプリの操作を行う抽象クラス
@@ -20,4 +33,7 @@ abstract interface class BaseOperator {
 }
 
 /// アプリの操作を行う抽象クラス
-abstract interface class BaseVerifier {}
+abstract interface class BaseVerifier {
+  // スクリーンショットを撮影するために必要
+  IntegrationTestWidgetsFlutterBinding get binding;
+}
