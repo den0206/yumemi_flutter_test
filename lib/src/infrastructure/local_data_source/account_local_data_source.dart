@@ -14,6 +14,9 @@ AccountLocalDataSource accountLocalDataSource(Ref ref) {
 
 // アカウント周りのローカル保存を管理するクラス
 class AccountLocalDataSource {
+  // 最大検索クエリ保存数
+  static const int maxQueryCount = 5;
+
   // ローカル保存: SortType
   Future<SortType> saveSortType(SortType sortType) async {
     await StorageService.sortType.saveString(sortType.name);
@@ -46,5 +49,46 @@ class AccountLocalDataSource {
     final current = await StorageService.themeMode.loadString();
     return ThemeMode.values.firstWhereOrNull((e) => e.name == current) ??
         ThemeMode.light;
+  }
+
+  // ローカル保存: 検索履歴
+  Future<List<String>> saveQuery(String query) async {
+    var current = await loadQueries();
+
+    if (current.contains(query)) return current;
+
+    // 先頭に追加
+    current.insert(0, query);
+    // 最大5件保存(5件以上は削除する)
+    if (current.length > maxQueryCount) {
+      current = current.sublist(0, maxQueryCount);
+    }
+
+    await StorageService.queryHistory.saveArrayString(current);
+    return current;
+  }
+
+  // ローカル読み込み: 検索履歴
+  Future<List<String>> loadQueries() async {
+    final current = await StorageService.queryHistory.loadArrayString();
+
+    return current ?? [];
+  }
+
+  // ローカル削除: 単体検索履歴
+  Future<List<String>> deleteQuery(String query) async {
+    final current = await loadQueries();
+    if (current.contains(query)) {
+      final deleted = current.where((e) => e != query).toList();
+      await StorageService.queryHistory.saveArrayString(deleted);
+      return deleted;
+    }
+
+    return current;
+  }
+
+  // ローカル削除: 全検索履歴
+  Future<bool> deleteAllQuery() async {
+    return StorageService.queryHistory.deleteLocal();
   }
 }
