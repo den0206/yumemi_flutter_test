@@ -50,6 +50,12 @@ final class MyApp extends ConsumerWidget {
       locale: language.locale,
       initialRoute: router.initialRoute,
       onGenerateRoute: router.generateRoute,
+      builder: (context, child) {
+        // テキストスケール無効化対応
+        return MediaQuery.withNoTextScaling(
+          child: child!,
+        );
+      },
     );
   }
 }
