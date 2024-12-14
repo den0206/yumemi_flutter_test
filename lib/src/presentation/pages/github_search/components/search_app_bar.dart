@@ -19,8 +19,9 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _ = ref.watch(githubSearchNotifierProvider);
-
+    final repositories = ref.watch(
+      githubSearchNotifierProvider.select((state) => state.repositories),
+    );
     return SliverAppBar(
       title: _SearchTextField(
         // インクリメント検索の待機時間
@@ -59,6 +60,8 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
       ],
       floating: true,
       pinned: true,
+      // 現在の取得数/合計数
+      bottom: repositories.isEmpty ? null : _TotalCountText(),
     );
   }
 }
@@ -246,5 +249,29 @@ final class _ThemeSwitch extends ConsumerWidget {
             .setThemeMode(themeMode);
       },
     );
+  }
+}
+
+// 検索結果数
+// 現在の取得数/合計数
+final class _TotalCountText extends ConsumerWidget
+    implements PreferredSizeWidget {
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(githubSearchNotifierProvider);
+    return state.repositories.isEmpty
+        ? Container()
+        : ListTile(
+            leading: Text(
+              '${state.query} の検索結果',
+              style: context.titleSmall,
+            ),
+            trailing: Text(
+              '${state.repositories.length}/${state.totalCount}件表示中',
+            ),
+          );
   }
 }
