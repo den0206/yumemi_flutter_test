@@ -50,3 +50,6 @@ app.*.map.json
 
 # 自動生成ファイル
 **/_generated
+
+# 統合テスト実行時のスクリーンショット
+integration_test/screenshots/
