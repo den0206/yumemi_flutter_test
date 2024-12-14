@@ -1,3 +1,5 @@
+import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
+import 'package:yumemi_flutter_test/src/core/service/navigation_service.dart';
 import 'package:yumemi_flutter_test/src/domain/entity/exception/custom_exception.dart';
 
 final class NetworkException extends CustomException {
@@ -38,19 +40,22 @@ final class NetworkException extends CustomException {
   // エラーダイアログに表示する文言
   @override
   String get message {
+    final l10n = L10n.of(NavigationService.context);
+
+    // 多言語: ネットワークエラーメッセージ
     switch (code) {
       case codeNotModified:
-        return '304 Not Modified';
+        return l10n.not_modified;
       case codeValidationFailed:
-        return '422 Validation Failed';
+        return l10n.validation_failed;
       case codeServiceUnavailable:
-        return '503 Service unavailable';
+        return l10n.service_unavailable;
       case codeNoInternetConnection:
-        return 'No Internet Connection';
+        return l10n.no_internet;
       case codeTimeout:
-        return 'TimeOut Error';
+        return l10n.timeout;
       default:
-        return 'Unknown Error';
+        return l10n.unknown;
     }
   }
 
