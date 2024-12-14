@@ -6,7 +6,7 @@ import 'package:yumemi_flutter_test/src/presentation/components/github_label.dar
 import '../../test_data/base_test_data.dart';
 import '../base_robot.dart';
 
-class SearchVerifier implements BaseVerifier {
+final class SearchVerifier implements BaseVerifier {
   // 検証: 検索文言が存在するか
   void findQuery(BaseTestData testData) {
     expect(find.text(testData.testQuery), findsWidgets);
