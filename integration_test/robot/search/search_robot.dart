@@ -57,4 +57,23 @@ final class SearchRobot implements BaseRobot {
     // 動作
     await operator.closeDialog();
   }
+
+  Future<void> findQueryHistory() async {
+    // 動作
+    await operator.tapClearButton();
+
+    // 検証
+    verifier.findQueryHistory(testData);
+
+    // スクリーンショット
+    await takeScreenShot('query_history');
+  }
+
+  Future<void> notFindQueryHistory() async {
+    // 動作
+    await operator.tapClearButton();
+
+    // 検証
+    verifier.notFindQueryHistory(testData);
+  }
 }

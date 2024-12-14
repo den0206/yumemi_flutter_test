@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:yumemi_flutter_test/src/core/widget_key/common/dialog_key.dart';
+import 'package:yumemi_flutter_test/src/core/widget_key/search/search_page_key.dart';
 
 import '../../test_data/base_test_data.dart';
 import '../base_robot.dart';
@@ -16,7 +17,7 @@ final class SearchOperator implements BaseOperator {
   Future<void> entryTextCorrectQuery(BaseTestData testData) async {
     // 検索フォームへのText入力
     await tester.enterText(
-      find.byType(TextField).at(0),
+      find.byKey(SearchPageKey.searchTextField),
       testData.testQuery,
     );
     await tester.pumpAndSettle();
@@ -41,6 +42,16 @@ final class SearchOperator implements BaseOperator {
     );
 
     await tester.tap(closeDialogButton);
+    await tester.pumpAndSettle();
+  }
+
+  // 動作: 検索文言をクリア
+  Future<void> tapClearButton() async {
+    final clearButton = find.descendant(
+      of: find.byKey(SearchPageKey.searchTextField),
+      matching: find.byIcon(Icons.close),
+    );
+    await tester.tap(clearButton);
     await tester.pumpAndSettle();
   }
 }

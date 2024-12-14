@@ -41,7 +41,7 @@ void main() {
       // Androidでスクリーンショットを撮影するために必要
       await binding.convertFlutterSurfaceToImage();
 
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 3));
 
       // 検索動作
       await searchRobot.searchQuery();
@@ -55,6 +55,9 @@ void main() {
 
       // 戻る動作
       await detailRobot.tabBackButton();
+
+      // 検索履歴検証
+      await searchRobot.findQueryHistory();
     },
   );
 }
