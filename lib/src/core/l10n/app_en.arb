@@ -53,5 +53,6 @@
             "format": "compact"
           }
       }
-    }
+    },
+    "delete_all_queries": "Are you sure you want to delete all history?"
 }

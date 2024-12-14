@@ -21,5 +21,6 @@
     "loading_error": "再読み込みをお試しください",
     "search_result": "{query} の検索結果",
     "search_length": "{current}件/{total}件表示中",
-    "query_history": "履歴 {current}/{max}"
+    "query_history": "履歴 {current}/{max}",
+    "delete_all_queries": "履歴を全て削除しますか?"
 }
