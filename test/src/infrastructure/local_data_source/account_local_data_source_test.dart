@@ -63,4 +63,60 @@ void main() {
       expect(savedThemeMode, themeMode);
     });
   });
+
+  group('Query History のテスト', () {
+    const maxCount = AccountLocalDataSource.maxQueryCount;
+    test('単一のクエリの保存', () async {
+      final query = random.rString;
+      await authLocalDataSource.saveQuery(query);
+
+      final queries = await authLocalDataSource.loadQueries();
+
+      expect(queries.contains(query), true);
+      expect(queries.length, 1);
+    });
+
+    test('${maxCount - 1}件のクエリの保存', () async {
+      final queries = <String>[];
+      for (var i = 0; i < maxCount - 1; i++) {
+        final query = random.rString;
+        queries.insert(0, query);
+        await authLocalDataSource.saveQuery(query);
+      }
+      expect(queries.length, maxCount - 1);
+      final savedQueries = await authLocalDataSource.loadQueries();
+      expect(savedQueries.length, maxCount - 1);
+      expect(savedQueries, queries);
+    });
+
+    test('$maxCount件のクエリの保存', () async {
+      final queries = <String>[];
+      for (var i = 0; i < maxCount; i++) {
+        final query = random.rString;
+        queries.insert(0, query);
+        await authLocalDataSource.saveQuery(query);
+      }
+      expect(queries.length, maxCount);
+      final savedQueries = await authLocalDataSource.loadQueries();
+      expect(savedQueries.length, maxCount);
+      expect(savedQueries, queries);
+    });
+
+    test('$maxCount件+1のクエリの保存', () async {
+      final queries = <String>[];
+      for (var i = 0; i < maxCount + 1; i++) {
+        final query = random.rString;
+        queries.insert(0, query);
+        await authLocalDataSource.saveQuery(query);
+      }
+      expect(queries.length, maxCount + 1);
+      final savedQueries = await authLocalDataSource.loadQueries();
+      expect(savedQueries.length, maxCount);
+
+      // 最初に追加した要素は含まれていないかを確認
+      expect(savedQueries.contains(queries.last), false);
+
+      expect(savedQueries, queries.sublist(0, maxCount));
+    });
+  });
 }
