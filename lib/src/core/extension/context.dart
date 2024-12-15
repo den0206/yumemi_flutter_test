@@ -33,6 +33,11 @@ extension TextStyleExtension on BuildContext {
   TextStyle get bodySmall {
     return Theme.of(this).textTheme.bodySmall!;
   }
+
+  // DarkMode の判定
+  bool get isDarkMode {
+    return Theme.of(this).brightness == Brightness.dark;
+  }
 }
 
 // Size 拡張
