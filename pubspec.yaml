@@ -26,6 +26,7 @@ dependencies:
   collection: any
   lottie: ^3.3.0
   flutter_dotenv: ^5.2.1
+  flutter_svg: ^2.0.16
 
 
 dev_dependencies:
@@ -51,6 +52,7 @@ flutter:
 
   assets:
     - .env
+    - assets/svg/
     - assets/lottie/
 
 # FlutterGenの設定
