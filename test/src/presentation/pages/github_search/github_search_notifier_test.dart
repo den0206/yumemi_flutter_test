@@ -58,6 +58,39 @@ void main() {
   });
 
   test(
+    '検索結果0件',
+    () async {
+      final container = makeProviderContainer(mockSearchRepository);
+      final target = container.read(githubSearchNotifierProvider.notifier);
+
+      // レスポンスデータ(Dummy)の生成(検索結果0件)
+      final mockRepsonse = SearchRepositoryResponseFactory()
+          .generateFake()
+          .copyWith(totalCount: 0, items: []);
+
+      // ランダムの検索文字列
+      final q = rnd.rString;
+
+      when(mockSearchRepository.searchRepositories(any)).thenAnswer(
+        (_) async => mockRepsonse,
+      );
+
+      // 動作: 検索文言の更新
+      target.onQueryChanged(q);
+
+      // 検証: 例外が返却されるか
+      await expectLater(
+        () async => target.search(),
+        throwsA(NetworkException.notFoundRepository()),
+      );
+
+      expect(target.state.query, q);
+      // 検証: 例外処理時: ローディングのフラグが戻っているか
+      expect(target.state.isLoading, false);
+    },
+  );
+
+  test(
     '検索失敗',
     () async {
       final container = makeProviderContainer(mockSearchRepository);
