@@ -49,7 +49,8 @@ app.*.map.json
 .env
 
 # 自動生成ファイル
-**/_generated
+# 実務ではignoreしています
+# **/_generated
 
 # 統合テスト実行時のスクリーンショット
 integration_test/screenshots/
