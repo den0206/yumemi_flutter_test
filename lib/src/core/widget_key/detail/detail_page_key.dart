@@ -7,4 +7,5 @@ final class DetailPageKey {
   static const avatar = Key('${_prefix}_avatar_image');
   static const fullName = Key('${_prefix}_full_name');
   static const readme = Key('${_prefix}_readme');
+  static const language = Key('${_prefix}_language');
 }
