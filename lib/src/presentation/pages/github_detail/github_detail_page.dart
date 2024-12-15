@@ -30,6 +30,7 @@ final class GithubDetailPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             sliver: SliverList(
               delegate: SliverChildListDelegate.fixed([
+                // オーナーアイコン
                 CircleImageAvatar(
                   key: DetailPageKey.avatar,
                   url: repository.owner.avatarUrl,
@@ -38,6 +39,7 @@ final class GithubDetailPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
+                // リポジトリ名
                 Text(
                   key: DetailPageKey.fullName,
                   repository.fullName,
@@ -48,7 +50,7 @@ final class GithubDetailPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
-                      vertical: 16,
+                      vertical: 4,
                     ),
                     child: Text(
                       repository.description ?? '',
@@ -57,7 +59,13 @@ final class GithubDetailPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
+                ),
+                // プロジェクト言語
+                if (repository.language != null)
+                  _LanguageLabel(repository: repository),
+                const SizedBox(
+                  height: 5,
                 ),
                 GithubLabels(repo: repository),
                 const Divider(),
@@ -78,6 +86,34 @@ final class GithubDetailPage extends StatelessWidget {
   }
 }
 
+// プロジェクト言語表示ラベル
+class _LanguageLabel extends StatelessWidget {
+  const _LanguageLabel({
+    required this.repository,
+  });
+
+  final RepositorySchema repository;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 3,
+      key: DetailPageKey.language,
+      children: [
+        const Icon(
+          Icons.code,
+          size: 16,
+        ),
+        Text(
+          repository.language!,
+          style: context.bodySmall,
+        ),
+      ],
+    );
+  }
+}
+
+// README表示エリア
 final class _ReadmeArea extends ConsumerWidget {
   const _ReadmeArea(this.repository);
   final RepositorySchema repository;
