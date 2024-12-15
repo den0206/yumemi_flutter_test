@@ -22,9 +22,12 @@ final class ConditionSearchPanel extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 10,
           children: [
+            SizedBox(
+              height: context.heightPct(.02),
+            ),
             // SortTypeの選択
             Text(
-              // 多言語: 並び替え
+              // 多言語: 並び替え
               L10n.of(context).sort,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,

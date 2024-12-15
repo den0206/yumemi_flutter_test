@@ -26,7 +26,11 @@ final class RepositoryList extends ConsumerWidget {
         child: Center(
           child: state.isLoading
               // 画面全体ローディング
-              ? const CommonLoadingWidget()
+              ? SizedBox(
+                  height: context.heightPct(.8),
+                  width: context.widthPct(.8),
+                  child: const CommonLoadingWidget(),
+                )
               // 履歴表示エリア
               : const QueryHistoryArea(),
         ),
@@ -87,10 +91,12 @@ final class _RepositoryCell extends StatelessWidget {
       child: Row(
         spacing: 10,
         children: [
+          const Spacer(),
           CircleImageAvatar(url: repository.owner.avatarUrl),
+          if (context.isLandscape) const Spacer(),
           SizedBox(
             // 画面横幅の65%を指定
-            width: context.widthPct(.65),
+            width: context.widthPct(.63),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 5,
@@ -112,7 +118,7 @@ final class _RepositoryCell extends StatelessWidget {
               ],
             ),
           ),
-          const Spacer(),
+          if (context.isLandscape) const Spacer(),
           const Icon(
             Icons.chevron_right_sharp,
             size: 40,
@@ -134,7 +140,7 @@ final class _LoadingCell extends StatelessWidget {
     return VisibilityDetector(
       key: const Key('next_page'),
       // 画面の高さの10%を指定
-      child: CommonLoadingWidget(size: context.heightPct(.1)),
+      child: const CommonLoadingWidget(size: 80),
       onVisibilityChanged: (info) {
         if (info.visibleFraction > 0.5) {
           onVisibled?.call();
