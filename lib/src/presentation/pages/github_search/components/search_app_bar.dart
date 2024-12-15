@@ -129,6 +129,8 @@ class _SearchTextFieldState extends ConsumerState<_SearchTextField> {
       decoration: InputDecoration(
         // 多言語: リポジトリ検索
         hintText: L10n.of(context).search_repository,
+        hintMaxLines: 1,
+        hintStyle: context.bodySmall,
         contentPadding: const EdgeInsets.all(10),
         prefixIcon: Icon(Icons.search, color: IconTheme.of(context).color),
         suffixIcon: ValueListenableBuilder<TextEditingValue>(

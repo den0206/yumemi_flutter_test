@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:yumemi_flutter_test/src/_generated/gen/assets.gen.dart';
 import 'package:yumemi_flutter_test/src/_generated/src/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_test/src/core/extension/context.dart';
 import 'package:yumemi_flutter_test/src/core/widget_key/search/search_page_key.dart';
@@ -22,8 +24,8 @@ final class QueryHistoryArea extends ConsumerWidget {
       data: (data) {
         // 検索履歴がない場合
         if (data.isEmpty) {
-          //  多言語: Github 検索
-          return Text(L10n.of(context).github_search);
+          // 画面中央にGithubのロゴを表示
+          return const _GithubLogoView();
         }
 
         // 検索履歴がある場合
@@ -124,6 +126,39 @@ class _QueryCell extends ConsumerWidget {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Divider(),
+        ),
+      ],
+    );
+  }
+}
+
+// Github ロゴ View
+final class _GithubLogoView extends StatelessWidget {
+  const _GithubLogoView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: context.heightPct(.15),
+      children: [
+        // Github Logo
+        SvgPicture.asset(
+          Assets.svg.githubMark,
+          width: context.widthPct(.25),
+          height: context.heightPct(.25),
+          // ダークモードの場合はカラーフィルタ(白色)を付与する
+          colorFilter: context.isDarkMode
+              ? const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                )
+              : null,
+        ),
+        // 多言語: Github 検索
+        Text(
+          L10n.of(context).github_search,
+          style: context.titleLarge,
         ),
       ],
     );
