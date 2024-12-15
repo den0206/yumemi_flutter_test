@@ -123,6 +123,18 @@ void main() {
         throwsA(NetworkException.unknown()),
       );
     });
+
+    // SocketException
+    test('異常系: SocketException', () async {
+      when(mockClient.get(any, headers: anyNamed('headers')))
+          .thenThrow(const SocketException(''));
+
+      // NetworkException.noInternetConnection()にthrowしているか
+      expect(
+        () async => repository.searchRepositories(query),
+        throwsA(NetworkException.noInternetConnection()),
+      );
+    });
   });
 
   group(
