@@ -32,8 +32,9 @@ jobs:
         run:  fvm flutter --version
 
       # 自動生成ファイル(MakeFileを使用)
-      - name: setup script
-        run: make auto
+      # Gitターゲットに含む為、CI環境での実行をスキップ
+      # - name: setup script
+      #   run: make auto
 
       # .env(環境変数)ファイル作成
       - name: setup env
