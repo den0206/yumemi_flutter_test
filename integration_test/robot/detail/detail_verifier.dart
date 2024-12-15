@@ -14,6 +14,7 @@ final class DetailVerifier implements BaseVerifier {
   void findElements() {
     _findAvatarArea();
     _findFullNameArea();
+    _findLanguageArea();
     _findReadmeArea();
 
     _findStarLabel();
@@ -30,6 +31,11 @@ final class DetailVerifier implements BaseVerifier {
   // 検証: リポジトリ名を表示するエリアが存在するか
   void _findFullNameArea() {
     expect(find.byKey(DetailPageKey.fullName), findsOneWidget);
+  }
+
+  // 検証: プロジェクト言語 エリアが存在するか
+  void _findLanguageArea() {
+    expect(find.byKey(DetailPageKey.language), findsOneWidget);
   }
 
   // 検証: README エリアが存在するか
