@@ -29,10 +29,9 @@ final class QueryHistoryArea extends ConsumerWidget {
         }
 
         // 検索履歴がある場合
-        return Container(
+        return SizedBox(
           // 画面横幅の80%を指定
-          width: context.widthPct(.8),
-          margin: const EdgeInsets.all(10),
+          width: context.widthPct(.85),
           child: Column(
             spacing: 10,
             children: [
@@ -123,10 +122,7 @@ class _QueryCell extends ConsumerWidget {
             },
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Divider(),
-        ),
+        const Divider(),
       ],
     );
   }

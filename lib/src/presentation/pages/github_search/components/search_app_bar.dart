@@ -23,46 +23,53 @@ final class SearchAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final repositories = ref.watch(
       githubSearchNotifierProvider.select((state) => state.repositories),
     );
-    return SliverAppBar(
-      title: _SearchTextField(
-        // インクリメント検索の待機時間
-        incrementalDuration: const Duration(seconds: 1),
-        onSubmitted: (query) async {
-          try {
-            // キーボード上の検索ボタン: タップ時
-            await ref.read(githubSearchNotifierProvider.notifier).search();
-          } catch (e) {
-            // エラーメッセージ表示
-            if (context.mounted) await showError(context, e);
-          }
-        },
-        onDeleted: () {
-          // 削除ボタン: タップ時
-          ref.read(githubSearchNotifierProvider.notifier).clear();
-        },
-        onChanged: (query) async {
-          // 検索文字列変更時
-          ref.read(githubSearchNotifierProvider.notifier).onQueryChanged(query);
+    return SliverPadding(
+      padding: context.isLandscape
+          ? const EdgeInsets.only(top: 10)
+          : EdgeInsets.zero,
+      sliver: SliverAppBar(
+        title: _SearchTextField(
+          // インクリメント検索の待機時間
+          incrementalDuration: const Duration(seconds: 1),
+          onSubmitted: (query) async {
+            try {
+              // キーボード上の検索ボタン: タップ時
+              await ref.read(githubSearchNotifierProvider.notifier).search();
+            } catch (e) {
+              // エラーメッセージ表示
+              if (context.mounted) await showError(context, e);
+            }
+          },
+          onDeleted: () {
+            // 削除ボタン: タップ時
+            ref.read(githubSearchNotifierProvider.notifier).clear();
+          },
+          onChanged: (query) async {
+            // 検索文字列変更時
+            ref
+                .read(githubSearchNotifierProvider.notifier)
+                .onQueryChanged(query);
 
-          try {
-            // インクリメント検索
-            await ref.read(githubSearchNotifierProvider.notifier).search();
-          } catch (e) {
-            // エラーメッセージ表示
-            if (context.mounted) await showError(context, e);
-          }
-        },
+            try {
+              // インクリメント検索
+              await ref.read(githubSearchNotifierProvider.notifier).search();
+            } catch (e) {
+              // エラーメッセージ表示
+              if (context.mounted) await showError(context, e);
+            }
+          },
+        ),
+        actions: const [
+          // テーマモード変更Switch
+          _ThemeSwitch(),
+          // 条件検索パネル表示ボタン
+          _ConditionSearchButton(),
+        ],
+        floating: true,
+        pinned: true,
+        // 現在の取得数/合計数
+        bottom: repositories.isEmpty ? null : _TotalCountText(),
       ),
-      actions: const [
-        // テーマモード変更Switch
-        _ThemeSwitch(),
-        // 条件検索パネル表示ボタン
-        _ConditionSearchButton(),
-      ],
-      floating: true,
-      pinned: true,
-      // 現在の取得数/合計数
-      bottom: repositories.isEmpty ? null : _TotalCountText(),
     );
   }
 }

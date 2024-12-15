@@ -79,7 +79,10 @@ final class _GithubLabel extends StatelessWidget {
     return Row(
       key: type.key,
       children: [
-        Icon(type.icon),
+        Icon(
+          type.icon,
+          size: 16,
+        ),
         Text(
           type.getValue(repo).displayNumber,
           style: context.bodySmall,
